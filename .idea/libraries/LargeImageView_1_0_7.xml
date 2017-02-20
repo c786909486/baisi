@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="LargeImageView-1.0.7">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.shizhefei/LargeImageView/1.0.7/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.shizhefei/LargeImageView/1.0.7/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.shizhefei/LargeImageView/1.0.7/6a8b3063db4388b38eb60c58f521f5495e839f2a/LargeImageView-1.0.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

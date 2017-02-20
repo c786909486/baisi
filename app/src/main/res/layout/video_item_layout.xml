@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <include layout="@layout/user_icon_layout"/>
+    <TextView
+        android:id="@+id/video_txt_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="正文内容"
+        android:textSize="17sp"
+        android:textAppearance="?android:attr/textAppearance"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+        android:id="@+id/show_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="200dp">
+    </fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard>
+        <TextView
+            android:id="@+id/video_play_times"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/show_video"
+            android:text="102次播放"
+            android:padding="10dp"/>
+        <TextView
+            android:id="@+id/video_total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/show_video"
+            android:layout_alignRight="@id/show_video"
+            android:padding="10dp"
+            android:text="04:12"/>
+    </RelativeLayout>
+    <include layout="@layout/ding_layout"/>
+</LinearLayout>

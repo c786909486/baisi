@@ -12,30 +12,12 @@
         android:text="正文内容"
         android:textSize="17sp"
         android:textAppearance="?android:attr/textAppearance"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+
+    <com.ckz.baisi.view.JCVideoCustom
         android:id="@+id/show_video"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="200dp">
-    </fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard>
-        <TextView
-            android:id="@+id/video_play_times"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/show_video"
-            android:text="102次播放"
-            android:padding="10dp"/>
-        <TextView
-            android:id="@+id/video_total_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/show_video"
-            android:layout_alignRight="@id/show_video"
-            android:padding="10dp"
-            android:text="04:12"/>
-    </RelativeLayout>
+        android:layout_height="wrap_content">
+    </com.ckz.baisi.view.JCVideoCustom>
+
     <include layout="@layout/ding_layout"/>
 </LinearLayout>

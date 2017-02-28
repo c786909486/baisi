@@ -17,6 +17,8 @@ import com.ckz.baisi.R;
 import com.ckz.baisi.fragment.JingHuaFragment;
 import com.ckz.baisi.fragment.ZuiXinFragment;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int JINGHUA = 0;
     private static final int XINTIE = 1;
@@ -121,5 +123,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this,type+"",Toast.LENGTH_SHORT).show();
         }
         transaction.commit();
+    }
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()){
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
     }
 }

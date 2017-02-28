@@ -38,6 +38,24 @@ public class ZuiXinFragment extends Fragment implements View.OnClickListener{
 
     //json网址
     private String url[] = new String[]{
+            //全部
+            "http://s.budejie.com/topic/list/zuixin/1/budejie-android-6.6.2/0-20.json?",
+            //视频
+            "http://s.budejie.com/topic/list/zuixin/41/budejie-android-6.6.2/0-20.json?",
+            //图片
+            "http://s.budejie.com/topic/list/zuixin/10/budejie-android-6.6.2/0-20.json?",
+            //段子
+            "http://s.budejie.com/topic/list/zuixin/29/budejie-android-6.6.2/0-20.json?",
+            //原创
+            "http://s.budejie.com/topic/tag-topic/44289/new/budejie-android-6.6.2/0-20.json?",
+            //网红
+            "http://s.budejie.com/topic/tag-topic/3096/new/budejie-android-6.6.2/0-20.json?",
+            //美女
+            "http://s.budejie.com/topic/tag-topic/117/new/budejie-android-6.6.2/0-20.json?",
+            //冷知识
+            "http://s.budejie.com/topic/tag-topic/3176/new/budejie-android-6.6.2/0-20.json?",
+            //游戏
+            "http://s.budejie.com/topic/tag-topic/164/new/budejie-android-6.6.2/0-20.json?"
 
     };
     @Override
@@ -93,6 +111,16 @@ public class ZuiXinFragment extends Fragment implements View.OnClickListener{
         TuijianFragment fragment_wanghong = new TuijianFragment();
         TuijianFragment fragment_shehui = new TuijianFragment();
         TuijianFragment fragment_meinv = new TuijianFragment();
+
+        fragment_tuijian.setContent(url[0]);
+        fragment_shiping.setContent(url[1]);
+        fragment_tupian.setContent(url[2]);
+        fragment_duanzi.setContent(url[3]);
+        fragment_yuanchuang.setContent(url[4]);
+        fragment_paihang.setContent(url[5]);
+        fragment_wanghong.setContent(url[6]);
+        fragment_shehui.setContent(url[7]);
+        fragment_meinv.setContent(url[8]);
 
         viewList.add(fragment_tuijian);
         viewList.add(fragment_shiping);

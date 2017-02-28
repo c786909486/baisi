@@ -30,6 +30,8 @@ import com.ckz.baisi.unitls.AnimatorUtilsss;
 import java.util.ArrayList;
 import java.util.List;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
 /**
  * Created by CKZ on 2017/2/4.
  */
@@ -45,7 +47,7 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
     private ImageButton game_btn,suiji_btn;
     private List<String> titleList = new ArrayList<>(); //页卡标题集合
     private ArrayList<Fragment> viewList = new ArrayList<>(); //页卡视图集合
-
+    private int jinghua_position = 0;
     //json网址
     private String url[] = new String[]{
             //推荐
@@ -108,7 +110,7 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
 
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(3);
+        viewPager.setCurrentItem(jinghua_position);
        //Log.d("Tag",viewList.get(0).getContent());
 
         return view;
@@ -185,5 +187,9 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
         imageView.startAnimation(animator);
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
+    }
 }

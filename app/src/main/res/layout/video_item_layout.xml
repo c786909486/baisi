@@ -5,18 +5,12 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
     <include layout="@layout/user_icon_layout"/>
-    <TextView
-        android:id="@+id/video_txt_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="正文内容"
-        android:textSize="17sp"
-        android:textAppearance="?android:attr/textAppearance"/>
 
     <com.ckz.baisi.view.JCVideoCustom
         android:id="@+id/show_video"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:focusable="false">
     </com.ckz.baisi.view.JCVideoCustom>
 
     <include layout="@layout/ding_layout"/>

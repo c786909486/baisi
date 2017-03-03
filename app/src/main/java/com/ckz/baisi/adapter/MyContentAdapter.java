@@ -1,51 +1,35 @@
 package com.ckz.baisi.adapter;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
+
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
 import android.graphics.Color;
-import android.graphics.Rect;
-import android.os.Build;
-import android.provider.ContactsContract;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ckz.baisi.R;
+import com.ckz.baisi.activity.CommentActivity;
 import com.ckz.baisi.bean.BaisiData;
 import com.ckz.baisi.unitls.DisplayUtils;
-import com.ckz.baisi.unitls.ImageChangeUtil;
 import com.ckz.baisi.unitls.MyTimeUtils;
 import com.ckz.baisi.unitls.ScreenUtils;
 import com.ckz.baisi.view.CircleImageView;
 import com.ckz.baisi.view.JCVideoCustom;
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-
-import java.io.IOException;
 import java.util.List;
-
-import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
-import fm.jiecao.jcvideoplayer_lib.JCUserAction;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by CKZ on 2017/2/20.
@@ -64,7 +48,25 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int QUANWEN = 0;
     private static final int SHOUQI = 1;
     private int type = QUANWEN;
+    private TopCommentAdapter adapter;
 
+    private OnItemClickListener mOnItemClickListener;
+    private OnItemLongClickListener mOnItemLongClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener){
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener mOnItemLongClickListener) {
+        this.mOnItemLongClickListener = mOnItemLongClickListener;
+    }
+    public interface OnItemClickListener{
+        void onItemClick(View view,int position);
+    }
+
+    public interface OnItemLongClickListener{
+        void onItemLongClick(View view,int position);
+    }
     public MyContentAdapter(Activity context, List<BaisiData.ListBean> mData){
         this.context = context;
         this.mData = mData;
@@ -136,10 +138,11 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     /**
      * 设置视频数据
      */
-    private void setVideoData(final VideoViewHolder holder, int position){
+    private void setVideoData(final VideoViewHolder holder, final int position){
         /*
          *设置视频链接，播放次数，播放时长，视频正文,缩略图链接
          */
+        MyClickListener listener = new MyClickListener(position);
         holder.video_txt.setText(mData.get(position).getText());
         JCVideoPlayer.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
         if (mData.get(position).getVideo()!=null){
@@ -212,24 +215,28 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 //弹出底部分享窗口
             }
         });
-        holder.commend_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转到评论界面
-            }
-        });
+
+
+        holder.commend_btn.setOnClickListener(listener);
+
         holder.user_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //弹出底部访问用户主页窗口
             }
         });
+        if (mData.get(position).getTop_comments()!=null){
+            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments());
+            holder.hot_commend.setAdapter(adapter);
+
+        }
     }
 
     /**
      * 设置段子数据
      */
     private void setDuanziData(final DuanziViewHolder holder, int position){
+        MyClickListener listener = new MyClickListener(position);
         String content = mData.get(position).getText();
         holder.duanzi_txt.setText(content);
         if (calLines(content)){
@@ -312,18 +319,18 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 //弹出底部分享窗口
             }
         });
-        holder.commend_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转到评论界面
-            }
-        });
+        holder.commend_btn.setOnClickListener(listener);
         holder.user_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //弹出底部访问用户主页窗口
             }
         });
+        if (mData.get(position).getTop_comments()!=null){
+            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments());
+            holder.hot_commend.setAdapter(adapter);
+
+        }
 
     }
 
@@ -335,6 +342,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
          * 显示正文内容
          * 设置gif图片
          */
+        MyClickListener listener = new MyClickListener(position);
         holder.gif_txt.setText(mData.get(position).getText());
         Glide.with(context)
                 .load(mData.get(position).getGif().getImages().get(0))
@@ -403,18 +411,18 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 //弹出底部分享窗口
             }
         });
-        holder.commend_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转到评论界面
-            }
-        });
+        holder.commend_btn.setOnClickListener(listener);
         holder.user_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //弹出底部访问用户主页窗口
             }
         });
+        if (mData.get(position).getTop_comments()!=null){
+            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments());
+            holder.hot_commend.setAdapter(adapter);
+
+        }
     }
 
     /**
@@ -427,27 +435,11 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
          * 显示正文内容
          * 判断图片高度，显示图片
          */
+        MyClickListener listener = new MyClickListener(position);
         holder.image_txt.setText(mData.get(position).getText());
         if (mData.get(position).getImage().getHeight()> ScreenUtils.getScreenHeight(context)){
             holder.click_large.setVisibility(View.VISIBLE);
-//            Glide.with(context).load(mData.get(position).getImage().getBig().get(0))
-//                    .asBitmap().toBytes().diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .placeholder(R.mipmap.bg_activities_item_end_transparent)
-//                    .dontAnimate().into(new SimpleTarget<byte[]>() {
-//                @Override
-//                public void onResourceReady(byte[] bytes, GlideAnimation<? super byte[]> glideAnimation) {
-//                    try {
-//                        BitmapRegionDecoder regionDecoder = BitmapRegionDecoder.newInstance(bytes,0,bytes.length,false);
-//                        BitmapFactory.Options options = new BitmapFactory.Options();
-//                        Rect mRect = new Rect();
-//                        mRect.set(0,0,regionDecoder.getWidth(),600);
-//                        Bitmap bitmap = regionDecoder.decodeRegion(mRect,options);
-//                        holder.image_show.setImage(ImageSource.bitmap(bitmap));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
+
             Glide.with(context).load(mData.get(position).getImage().getBig().get(0))
                     .asBitmap()
                     .placeholder(R.mipmap.bg_activities_item_end_transparent)
@@ -529,18 +521,17 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 //弹出底部分享窗口
             }
         });
-        holder.commend_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转到评论界面
-            }
-        });
+        holder.commend_btn.setOnClickListener(listener);
         holder.user_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //弹出底部访问用户主页窗口
             }
         });
+        if (mData.get(position).getTop_comments()!=null){
+            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments());
+            holder.hot_commend.setAdapter(adapter);
+        }
 
     }
 
@@ -601,7 +592,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         LinearLayout click_large;
         //评论区
         TextView ding_btn,cai_btn,forward_btn,commend_btn;
-        ListView hot_commend;
+        RecyclerView hot_commend;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -610,7 +601,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             pass_time = (TextView) itemView.findViewById(R.id.pass_time);
             user_layout = (LinearLayout) itemView.findViewById(R.id.user_layout);
             //
-            image_txt = (TextView) itemView.findViewById(R.id.image_txt_content);
+            image_txt = (TextView) itemView.findViewById(R.id.text_content);
             image_show = (ImageView) itemView.findViewById(R.id.show_image);
             click_large = (LinearLayout) itemView.findViewById(R.id.click_large);
             //
@@ -618,7 +609,8 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             cai_btn = (TextView) itemView.findViewById(R.id.cai_button);
             forward_btn = (TextView) itemView.findViewById(R.id.forward_button);
             commend_btn = (TextView) itemView.findViewById(R.id.commend_button);
-            hot_commend = (ListView) itemView.findViewById(R.id.item_hot_commend);
+            hot_commend = (RecyclerView) itemView.findViewById(R.id.item_hot_commend);
+            hot_commend.setLayoutManager(new LinearLayoutManager(context));
         }
     }
     /**
@@ -634,7 +626,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ImageView show_gif;
         //评论区
         TextView ding_btn,cai_btn,forward_btn,commend_btn;
-        ListView hot_commend;
+        RecyclerView hot_commend;
         public GifViewHolder(View itemView) {
             super(itemView);
             user_icon = (CircleImageView) itemView.findViewById(R.id.image_user_icon);
@@ -646,9 +638,10 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             cai_btn = (TextView) itemView.findViewById(R.id.cai_button);
             forward_btn = (TextView) itemView.findViewById(R.id.forward_button);
             commend_btn = (TextView) itemView.findViewById(R.id.commend_button);
-            hot_commend = (ListView) itemView.findViewById(R.id.item_hot_commend);
+            hot_commend = (RecyclerView) itemView.findViewById(R.id.item_hot_commend);
+            hot_commend.setLayoutManager(new LinearLayoutManager(context));
             //
-            gif_txt = (TextView) itemView.findViewById(R.id.gif_txt_content);
+            gif_txt = (TextView) itemView.findViewById(R.id.text_content);
             show_gif = (ImageView) itemView.findViewById(R.id.show_gif);
         }
     }
@@ -664,7 +657,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView duanzi_txt,quanwen_click;
         //评论区
         TextView ding_btn,cai_btn,forward_btn,commend_btn;
-        ListView hot_commend;
+        RecyclerView hot_commend;
         public DuanziViewHolder(View itemView) {
             super(itemView);
             user_icon = (CircleImageView) itemView.findViewById(R.id.image_user_icon);
@@ -676,9 +669,10 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             cai_btn = (TextView) itemView.findViewById(R.id.cai_button);
             forward_btn = (TextView) itemView.findViewById(R.id.forward_button);
             commend_btn = (TextView) itemView.findViewById(R.id.commend_button);
-            hot_commend = (ListView) itemView.findViewById(R.id.item_hot_commend);
+            hot_commend = (RecyclerView) itemView.findViewById(R.id.item_hot_commend);
+            hot_commend.setLayoutManager(new LinearLayoutManager(context));
             //
-            duanzi_txt = (TextView) itemView.findViewById(R.id.duanzi_txt_content);
+            duanzi_txt = (TextView) itemView.findViewById(R.id.text_content);
             quanwen_click = (TextView) itemView.findViewById(R.id.quanwen_click);
         }
     }
@@ -695,7 +689,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         JCVideoCustom show_video;
         //评论区
         TextView ding_btn,cai_btn,forward_btn,commend_btn;
-        ListView hot_commend;
+        RecyclerView hot_commend;
         public VideoViewHolder(View itemView) {
             super(itemView);
             user_icon = (CircleImageView) itemView.findViewById(R.id.image_user_icon);
@@ -707,13 +701,32 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             cai_btn = (TextView) itemView.findViewById(R.id.cai_button);
             forward_btn = (TextView) itemView.findViewById(R.id.forward_button);
             commend_btn = (TextView) itemView.findViewById(R.id.commend_button);
-            hot_commend = (ListView) itemView.findViewById(R.id.item_hot_commend);
+            hot_commend = (RecyclerView) itemView.findViewById(R.id.item_hot_commend);
+            hot_commend.setLayoutManager(new LinearLayoutManager(context));
             //
-            video_txt = (TextView) itemView.findViewById(R.id.video_txt_content);
+            video_txt = (TextView) itemView.findViewById(R.id.text_content);
             show_video = (JCVideoCustom) itemView.findViewById(R.id.show_video);
             show_video.thumbImageView.setBackgroundColor(Color.WHITE);
 
         }
     }
+    class MyClickListener implements View.OnClickListener{
+        private int position;
+        public MyClickListener(int position){
+            this.position = position;
+        }
 
+        @Override
+        public void onClick(View v) {
+         switch (v.getId()){
+             case R.id.commend_button:
+                 Intent intent = new Intent(context, CommentActivity.class);
+                 Bundle bundle = new Bundle();
+                 bundle.putString("commentId",mData.get(position).getId());
+                 intent.putExtra("Id",bundle);
+                 context.startActivity(intent);
+                 break;
+         }
+        }
+    }
 }

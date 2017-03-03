@@ -7,7 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -20,11 +21,13 @@
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="123"
+                android:focusable="false"
                 android:textColor="@drawable/txt_seclect"
                 android:drawablePadding="5dp"
                 android:drawableLeft="@drawable/ding_click"
                 />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -38,9 +41,11 @@
                 android:drawableLeft="@drawable/cai_click"
                 android:text="123"
                 android:textColor="@drawable/txt_seclect"
+                android:focusable="false"
                 android:drawablePadding="5dp"
                 android:gravity="center"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -55,6 +60,7 @@
                 android:gravity="center"
                 android:drawablePadding="5dp"
                 android:textColor="@drawable/txt_seclect"
+                android:focusable="false"
                 android:drawableLeft="@drawable/forward_click"/>
         </LinearLayout>
         <LinearLayout
@@ -69,15 +75,19 @@
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="123"
+                android:focusable="false"
                 android:drawablePadding="5dp"
                 android:textColor="@drawable/txt_seclect"
                 android:drawableLeft="@drawable/commend_click"/>
         </LinearLayout>
     </LinearLayout>
-    <ListView
+    <android.support.v7.widget.RecyclerView
+        android:padding="5dp"
+        android:focusable="false"
         android:id="@+id/item_hot_commend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@null">
-    </ListView>
+        android:divider="@null"
+        android:background="#f2f2f2">
+    </android.support.v7.widget.RecyclerView>
     </LinearLayout>

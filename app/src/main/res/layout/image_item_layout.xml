@@ -6,13 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
     <include layout="@layout/user_icon_layout"/>
-    <TextView
-        android:id="@+id/image_txt_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="正文内容"
-        android:textSize="17sp"
-        android:textAppearance="?android:attr/textAppearance"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,6 +17,7 @@
             android:id="@+id/show_image"
             android:src="@mipmap/bg_activities_item_end_transparent"
             android:adjustViewBounds="true"
+            android:focusable="false"
             />
 
         <LinearLayout

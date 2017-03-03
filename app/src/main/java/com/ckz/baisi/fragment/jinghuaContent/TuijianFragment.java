@@ -1,25 +1,24 @@
 package com.ckz.baisi.fragment.jinghuaContent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ckz.baisi.R;
+import com.ckz.baisi.activity.CommentActivity;
 import com.ckz.baisi.adapter.MyContentAdapter;
-import com.ckz.baisi.adapter.MyImageAdapter;
+import com.ckz.baisi.adapter.TopCommentAdapter;
 import com.ckz.baisi.appliction.MyAppliction;
 import com.ckz.baisi.bean.BaisiData;
 import com.ckz.baisi.request.GsonRequest;
@@ -154,6 +153,7 @@ public class TuijianFragment extends Fragment {
             refreshLayout.startRefresh();
         }
 
+
     }
     private String setLastTime(){
         String lastTime = null;
@@ -242,54 +242,54 @@ public class TuijianFragment extends Fragment {
     //根据不同界面存储各自的刷新时间
     private void saveRefreshTime(){
         //精选
-        if (content.equals(jingXuanUrl[0]))  SPUtils.putlongSp(getContext(),"JXTJ",System.currentTimeMillis());
-        if (content.equals(jingXuanUrl[1]))  SPUtils.putlongSp(getContext(),"JXSP",System.currentTimeMillis());
-        if (content.equals(jingXuanUrl[2]))  SPUtils.putlongSp(getContext(),"JXTP",System.currentTimeMillis());
-        if (content.equals(jingXuanUrl[3]))  SPUtils.putlongSp(getContext(),"JXDZ",System.currentTimeMillis());
-        if (content.equals(jingXuanUrl[4]))  SPUtils.putlongSp(getContext(),"JXYC",System.currentTimeMillis());
-        if (content.equals(jingXuanUrl[5]))  SPUtils.putlongSp(getContext(),"JXWH",System.currentTimeMillis());
-        if (content.equals(jingXuanUrl[6]))  SPUtils.putlongSp(getContext(),"JXPH",System.currentTimeMillis());
-        if (content.equals(jingXuanUrl[7]))  SPUtils.putlongSp(getContext(),"JXSH",System.currentTimeMillis());
-        if (content.equals(jingXuanUrl[8]))  SPUtils.putlongSp(getContext(),"JXMN",System.currentTimeMillis());
-        if (content.equals(jingXuanUrl[9]))  SPUtils.putlongSp(getContext(),"JXLZS",System.currentTimeMillis());
-        if (content.equals(jingXuanUrl[10]))  SPUtils.putlongSp(getContext(),"JXYX",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[0])) SPUtils.putlongSp(getActivity(),"JXTJ",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[1])) SPUtils.putlongSp(getActivity(),"JXSP",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[2])) SPUtils.putlongSp(getActivity(),"JXTP",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[3])) SPUtils.putlongSp(getActivity(),"JXDZ",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[4])) SPUtils.putlongSp(getActivity(),"JXYC",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[5])) SPUtils.putlongSp(getActivity(),"JXWH",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[6])) SPUtils.putlongSp(getActivity(),"JXPH",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[7])) SPUtils.putlongSp(getActivity(),"JXSH",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[8])) SPUtils.putlongSp(getActivity(),"JXMN",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[9])) SPUtils.putlongSp(getActivity(),"JXLZS",System.currentTimeMillis());
+        if (content.equals(jingXuanUrl[10]))SPUtils.putlongSp(getActivity(),"JXYX",System.currentTimeMillis());
         //最新
-        if (content.equals(zuiXinUrl[0]))  SPUtils.putlongSp(getContext(),"ZXQB",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[1]))  SPUtils.putlongSp(getContext(),"ZXSP",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[2]))  SPUtils.putlongSp(getContext(),"ZXTP",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[3]))  SPUtils.putlongSp(getContext(),"ZXDZ",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[4]))  SPUtils.putlongSp(getContext(),"ZXYC",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[5]))  SPUtils.putlongSp(getContext(),"ZXWH",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[6]))  SPUtils.putlongSp(getContext(),"ZXMN",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[7]))  SPUtils.putlongSp(getContext(),"ZXLZS",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[8]))  SPUtils.putlongSp(getContext(),"ZXYX",System.currentTimeMillis());
+        if (content.equals(zuiXinUrl[0]))  SPUtils.putlongSp(getActivity(),"ZXQB",System.currentTimeMillis());
+        if (content.equals(zuiXinUrl[1]))  SPUtils.putlongSp(getActivity(),"ZXSP",System.currentTimeMillis());
+        if (content.equals(zuiXinUrl[2]))  SPUtils.putlongSp(getActivity(),"ZXTP",System.currentTimeMillis());
+        if (content.equals(zuiXinUrl[3]))  SPUtils.putlongSp(getActivity(),"ZXDZ",System.currentTimeMillis());
+        if (content.equals(zuiXinUrl[4]))  SPUtils.putlongSp(getActivity(),"ZXYC",System.currentTimeMillis());
+        if (content.equals(zuiXinUrl[5]))  SPUtils.putlongSp(getActivity(),"ZXWH",System.currentTimeMillis());
+        if (content.equals(zuiXinUrl[6]))  SPUtils.putlongSp(getActivity(),"ZXMN",System.currentTimeMillis());
+        if (content.equals(zuiXinUrl[7]))  SPUtils.putlongSp(getActivity(),"ZXLZS",System.currentTimeMillis());
+        if (content.equals(zuiXinUrl[8]))  SPUtils.putlongSp(getActivity(),"ZXYX",System.currentTimeMillis());
 
     }
 
     //不同界面获取不同时间差
     private void getTimeCha(){
         //精选
-        if (content.equals(jingXuanUrl[0]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXTJ");
-        if (content.equals(jingXuanUrl[1]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXSP");
-        if (content.equals(jingXuanUrl[2]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXTP");
-        if (content.equals(jingXuanUrl[3]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXDZ");
-        if (content.equals(jingXuanUrl[4]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXYC");
-        if (content.equals(jingXuanUrl[5]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXWH");
-        if (content.equals(jingXuanUrl[6]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXPH");
-        if (content.equals(jingXuanUrl[7]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXSH");
-        if (content.equals(jingXuanUrl[8]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXMN");
-        if (content.equals(jingXuanUrl[9]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXLZS");
-        if (content.equals(jingXuanUrl[10])) timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"JXYX");
+        if (content.equals(jingXuanUrl[0]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXTJ");
+        if (content.equals(jingXuanUrl[1]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXSP");
+        if (content.equals(jingXuanUrl[2]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXTP");
+        if (content.equals(jingXuanUrl[3]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXDZ");
+        if (content.equals(jingXuanUrl[4]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXYC");
+        if (content.equals(jingXuanUrl[5]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXWH");
+        if (content.equals(jingXuanUrl[6]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXPH");
+        if (content.equals(jingXuanUrl[7]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXSH");
+        if (content.equals(jingXuanUrl[8]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXMN");
+        if (content.equals(jingXuanUrl[9]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXLZS");
+        if (content.equals(jingXuanUrl[10])) timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXYX");
         //最新
-        if (content.equals(zuiXinUrl[0]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"ZXQB");
-        if (content.equals(zuiXinUrl[1]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"ZXSP");
-        if (content.equals(zuiXinUrl[2]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"ZXTP");
-        if (content.equals(zuiXinUrl[3]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"ZXDZ");
-        if (content.equals(zuiXinUrl[4]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"ZXYC");
-        if (content.equals(zuiXinUrl[5]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"ZXWH");
-        if (content.equals(zuiXinUrl[6]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"ZXMN");
-        if (content.equals(zuiXinUrl[7]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"ZXLZS");
-        if (content.equals(zuiXinUrl[8]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getContext(),"ZXYX");
+        if (content.equals(zuiXinUrl[0]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXQB");
+        if (content.equals(zuiXinUrl[1]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXSP");
+        if (content.equals(zuiXinUrl[2]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXTP");
+        if (content.equals(zuiXinUrl[3]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXDZ");
+        if (content.equals(zuiXinUrl[4]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXYC");
+        if (content.equals(zuiXinUrl[5]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXWH");
+        if (content.equals(zuiXinUrl[6]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXMN");
+        if (content.equals(zuiXinUrl[7]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXLZS");
+        if (content.equals(zuiXinUrl[8]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXYX");
     }
     //存储个页面data数据
     private void saveAllData(){

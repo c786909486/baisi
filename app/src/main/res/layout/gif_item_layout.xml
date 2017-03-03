@@ -5,13 +5,6 @@
     android:padding="10dp"
     android:gravity="center_horizontal">
     <include layout="@layout/user_icon_layout"/>
-    <TextView
-        android:id="@+id/gif_txt_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="正文内容"
-        android:textSize="17sp"
-        android:textAppearance="?android:attr/textAppearance"/>
      <RelativeLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content">
@@ -20,6 +13,7 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:minHeight="400dp"
+             android:focusable="false"
              android:adjustViewBounds="true"
              android:scaleType="fitCenter"
              />

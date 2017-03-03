@@ -1,5 +1,6 @@
 package com.ckz.baisi.unitls;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -13,7 +14,7 @@ public class SPUtils {
     public static SharedPreferences.Editor ed;
 
     public static String getStringSp(Context context,String key){
-        sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         String result = sp.getString(key,"");
         return result;
     }
@@ -27,7 +28,8 @@ public class SPUtils {
         ed.putString(key,value);
         ed.commit();
     }
-    public static void putlongSp(Context context,String key,long value){
+    @SuppressLint("CommitPrefEdits")
+    public static void putlongSp(Context context, String key, long value){
         ed = PreferenceManager.getDefaultSharedPreferences(context).edit();
         ed.putLong(key,value);
         ed.commit();

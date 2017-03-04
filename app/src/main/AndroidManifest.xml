@@ -28,10 +28,7 @@
         </activity>
         <activity android:name=".activity.GongxianActivity" />
         <activity android:name=".activity.UserDetilsActivity" />
-        <activity android:name=".activity.CommentActivity" />
-        <activity android:name=".activity.ImageCommentActivity" />
-        <activity android:name=".activity.GifCommentActivity" />
-        <activity android:name=".activity.VideoCommentActivity"></activity>
+        <activity android:name=".activity.CommentActivity"></activity>
     </application>
 
 </manifest>

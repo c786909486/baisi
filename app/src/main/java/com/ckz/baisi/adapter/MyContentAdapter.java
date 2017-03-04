@@ -9,9 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,12 +22,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ckz.baisi.R;
 import com.ckz.baisi.activity.CommentActivity;
-import com.ckz.baisi.activity.GifCommentActivity;
-import com.ckz.baisi.activity.ImageCommentActivity;
-import com.ckz.baisi.activity.VideoCommentActivity;
 import com.ckz.baisi.bean.BaisiData;
 import com.ckz.baisi.unitls.DisplayUtils;
-import com.ckz.baisi.unitls.LogUtils;
 import com.ckz.baisi.unitls.MyTimeUtils;
 import com.ckz.baisi.unitls.ScreenUtils;
 import com.ckz.baisi.view.CircleImageView;
@@ -89,7 +83,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }else if (mData.get(position).getType().equals("text")){
             return DUANZITYPE;
         }else {
-            return VOICETYPE;
+            return VIDEOTYPE;
         }
     }
 
@@ -150,7 +144,6 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
          */
         MyClickListener listener = new MyClickListener(position);
         holder.video_txt.setText(mData.get(position).getText());
-        holder.video_txt.setOnClickListener(listener);
         JCVideoPlayer.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
         if (mData.get(position).getVideo()!=null){
             holder.show_video.play_counts.setText(String.valueOf(mData.get(position).getVideo().getPlaycount())+"播放");
@@ -233,20 +226,19 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         });
         if (mData.get(position).getTop_comments()!=null){
-            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments(),mData.get(position));
+            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments());
             holder.hot_commend.setAdapter(adapter);
-            holder.hot_commend.setOnClickListener(listener);
+
         }
     }
 
     /**
      * 设置段子数据
      */
-    private void setDuanziData(final DuanziViewHolder holder, final int position){
+    private void setDuanziData(final DuanziViewHolder holder, int position){
         MyClickListener listener = new MyClickListener(position);
         String content = mData.get(position).getText();
         holder.duanzi_txt.setText(content);
-        holder.duanzi_txt.setOnClickListener(listener);
         if (calLines(content)){
             holder.quanwen_click.setVisibility(View.VISIBLE);
             holder.quanwen_click.setOnClickListener(new View.OnClickListener() {
@@ -335,37 +327,11 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         });
         if (mData.get(position).getTop_comments()!=null){
-            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments(),mData.get(position));
+            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments());
             holder.hot_commend.setAdapter(adapter);
-            holder.hot_commend.requestFocus();
-            holder.hot_commend.requestFocusFromTouch();
-            adapter.setOnItemClickListener(new TopCommentAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    Intent intent = new Intent(context, CommentActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("commentId",mData.get(position).getId());
-                        intent.putExtra("Id",bundle);
-                        context.startActivity(intent);
-
-                }
-            });
-//            holder.hot_commend.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    if (event.getAction() == MotionEvent.ACTION_UP){
-//                        Intent intent = new Intent(context, CommentActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("commentId",mData.get(position).getId());
-//                        intent.putExtra("Id",bundle);
-//                        context.startActivity(intent);
-//                    }
-//                    return false;
-//                }
-//            });
-
 
         }
+
     }
 
     /**
@@ -378,7 +344,6 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
          */
         MyClickListener listener = new MyClickListener(position);
         holder.gif_txt.setText(mData.get(position).getText());
-        holder.gif_txt.setOnClickListener(listener);
         Glide.with(context)
                 .load(mData.get(position).getGif().getImages().get(0))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -454,11 +419,9 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         });
         if (mData.get(position).getTop_comments()!=null){
-            if (mData.get(position).getTop_comments().size()!=0){
-                adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments(),mData.get(position));
-                holder.hot_commend.setAdapter(adapter);
-                holder.hot_commend.setOnClickListener(listener);
-            }
+            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments());
+            holder.hot_commend.setAdapter(adapter);
+
         }
     }
 
@@ -474,7 +437,6 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
          */
         MyClickListener listener = new MyClickListener(position);
         holder.image_txt.setText(mData.get(position).getText());
-        holder.image_txt.setOnClickListener(listener);
         if (mData.get(position).getImage().getHeight()> ScreenUtils.getScreenHeight(context)){
             holder.click_large.setVisibility(View.VISIBLE);
 
@@ -567,9 +529,8 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         });
         if (mData.get(position).getTop_comments()!=null){
-            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments(),mData.get(position));
+            adapter = new TopCommentAdapter(context,mData.get(position).getTop_comments());
             holder.hot_commend.setAdapter(adapter);
-            holder.hot_commend.setOnClickListener(listener);
         }
 
     }
@@ -758,28 +719,14 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Override
         public void onClick(View v) {
          switch (v.getId()){
-             case R.id.text_content:
-             
              case R.id.commend_button:
-                setIntent(position);
+                 Intent intent = new Intent(context, CommentActivity.class);
+                 Bundle bundle = new Bundle();
+                 bundle.putString("commentId",mData.get(position).getId());
+                 intent.putExtra("Id",bundle);
+                 context.startActivity(intent);
                  break;
          }
         }
-    }
-    private void setIntent(int position){
-        Intent intent = null;
-        if (mData.get(position).getType().equals("image")){
-            intent = new Intent(context, ImageCommentActivity.class);
-        }else if (mData.get(position).getType().equals("gif")){
-            intent = new Intent(context, GifCommentActivity.class);
-        }else if (mData.get(position).getType().equals("video")){
-            intent = new Intent(context, VideoCommentActivity.class);
-        }else if (mData.get(position).getType().equals("text")){
-            intent = new Intent(context,CommentActivity.class);
-        }
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("Data",mData.get(position));
-        intent.putExtra("Id",bundle);
-        context.startActivity(intent);
     }
 }

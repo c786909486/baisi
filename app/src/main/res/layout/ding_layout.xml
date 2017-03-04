@@ -3,7 +3,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:descendantFocusability="blocksDescendants"
         >
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,9 +83,8 @@
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:padding="5dp"
-        android:focusable="true"
+        android:focusable="false"
         android:id="@+id/item_hot_commend"
-        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@null"

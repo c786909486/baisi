@@ -3,27 +3,34 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:descendantFocusability="blocksDescendants"
     android:padding="10dp">
     <TextView
         android:id="@+id/top_voice_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:focusable="false"
         android:text="123113"
         android:textColor="@color/Blue"
         />
+
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/top_voice_play_area">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/voice_bg"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:id="@+id/voice_play_btn"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/voice_ani"
+            android:focusable="false"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:id="@+id/voide_play_ani"
@@ -32,6 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/voice_ani"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:id="@+id/voide_play_icon"/>
@@ -40,6 +49,7 @@
             android:layout_height="wrap_content"
             style="?android:attr/progressBarStyleSmall"
             android:layout_centerVertical="true"
+            android:focusable="false"
             android:layout_marginLeft="20dp"
             android:visibility="gone"
             android:id="@+id/voice_loading"

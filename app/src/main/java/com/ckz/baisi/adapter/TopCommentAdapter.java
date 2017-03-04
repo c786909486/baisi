@@ -17,10 +17,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.ckz.baisi.R;
+import com.ckz.baisi.activity.CommentActivity;
+import com.ckz.baisi.activity.GifCommentActivity;
+import com.ckz.baisi.activity.ImageCommentActivity;
 import com.ckz.baisi.activity.UserDetilsActivity;
+import com.ckz.baisi.activity.VideoCommentActivity;
 import com.ckz.baisi.bean.BaisiData;
 import com.ckz.baisi.unitls.TextUtils;
 import java.io.IOException;
@@ -50,10 +56,12 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void setOnItemLongClickListener(OnItemLongClickListener mOnItemLongClickListener) {
         this.mOnItemLongClickListener = mOnItemLongClickListener;
     }
+    private BaisiData.ListBean listBean;
 
-    public TopCommentAdapter(Context context, List<BaisiData.ListBean.TopCommentsBean> mData){
+    public TopCommentAdapter(Context context, List<BaisiData.ListBean.TopCommentsBean> mData, BaisiData.ListBean listBean){
         this.context = context;
         this.mData = mData;
+        this.listBean = listBean;
     }
 
     @Override
@@ -217,7 +225,7 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Intent intent = new Intent(context, UserDetilsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("userId",mData.get(position).getU().getUid());
-            intent.putExtra("ID",bundle);
+            intent.putExtra("Id",bundle);
             context.startActivity(intent);
         }
     }
@@ -227,6 +235,12 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public TxtCommentViewHolder(View itemView) {
             super(itemView);
             txt_comment = (TextView) itemView.findViewById(R.id.top_text_comment);
+            txt_comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setIntent();
+                }
+            });
         }
     }
 
@@ -234,6 +248,7 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ImageView voice_play_btn,voice_play_ani,voice_play_icon;
         ProgressBar loading;
         TextView userName;
+        RelativeLayout voice_play_area;
         public VoiceCommentViewHolder(View itemView) {
             super(itemView);
             userName = (TextView) itemView.findViewById(R.id.top_voice_user_name);
@@ -241,6 +256,29 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             voice_play_ani = (ImageView) itemView.findViewById(R.id.voide_play_ani);
             voice_play_icon = (ImageView) itemView.findViewById(R.id.voide_play_icon);
             loading = (ProgressBar) itemView.findViewById(R.id.voice_loading);
+            voice_play_area = (RelativeLayout) itemView.findViewById(R.id.top_voice_play_area);
+            voice_play_area.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setIntent();
+                }
+            });
         }
+    }
+    private void setIntent(){
+        Intent intent = null;
+        if (listBean.getType().equals("image")){
+            intent = new Intent(context, ImageCommentActivity.class);
+        }else if (listBean.getType().equals("gif")){
+            intent = new Intent(context, GifCommentActivity.class);
+        }else if (listBean.getType().equals("video")){
+            intent = new Intent(context, VideoCommentActivity.class);
+        }else if (listBean.getType().equals("text")){
+            intent = new Intent(context,CommentActivity.class);
+        }
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Data",listBean);
+        intent.putExtra("Id",bundle);
+        context.startActivity(intent);
     }
 }

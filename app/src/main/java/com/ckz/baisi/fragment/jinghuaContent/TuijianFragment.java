@@ -54,6 +54,8 @@ public class TuijianFragment extends Fragment {
     private ACache cache;
     private BaisiData baisi;
 
+    private Timer timer = new Timer();
+
     private static final String jingXuanUrl[] =new String[]{
             //推荐
             "http://s.budejie.com/topic/list/jingxuan/1/budejie-android-6.6.2/0-20.json?",
@@ -135,10 +137,10 @@ public class TuijianFragment extends Fragment {
         jinghuaRecycler.setAdapter(adapter);
         headView = new BudejieRefresh(getContext());
         refreshLayout.setHeaderView(headView);
-        getTimeCha();
+//        getTimeCha();
         refreshData();
         headView.refreshTime.setText(setLastTime());
-        new Timer().schedule(new TimerTask() {
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 getTimeCha();
@@ -403,4 +405,9 @@ public class TuijianFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+    }
 }

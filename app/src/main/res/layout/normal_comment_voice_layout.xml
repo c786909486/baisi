@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/comment_user_layout"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/user_like_count"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_gz"
+                android:text="123"
+                android:gravity="center"
+                android:textSize="11sp"
+                android:textColor="#fff"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
+            <com.ckz.baisi.view.MyListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/floor_list"
+                android:layout_marginRight="10dp"
+                android:visibility="gone">
+            </com.ckz.baisi.view.MyListView>
+            <include layout="@layout/voice_play"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

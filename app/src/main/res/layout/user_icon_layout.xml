@@ -15,7 +15,8 @@
             android:id="@+id/user_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="10dp">
 
 
         <com.ckz.baisi.view.CircleImageView
@@ -36,7 +37,7 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:text="userName"
                 android:textAppearance="?android:attr/textAppearance"
                 android:textColor="@color/Blue"
@@ -45,7 +46,7 @@
                 android:id="@+id/pass_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 android:text="2017-02-13"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 />
@@ -58,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="正文内容"
-        android:textSize="17sp"
+        android:textSize="20sp"
         android:maxLines="7"
         android:textAppearance="?android:attr/textAppearance"/>
 </LinearLayout>

@@ -41,5 +41,7 @@ dependencies {
     compile 'com.android.support:support-v13:25.0.1'
     compile 'com.shizhefei:LargeImageView:1.0.7'
     compile files('libs/volley.jar')
-    compile(name:'jiecaovideoplayer-5.4',ext:'aar')
+    compile(name: 'jiecaovideoplayer-5.4', ext: 'aar')
+    compile files('libs/photoview-library-1.2.2.jar')
+
 }

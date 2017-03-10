@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+    <include layout="@layout/user_icon_layout"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_image"
+            android:src="@mipmap/bg_activities_item_end_transparent"
+            android:adjustViewBounds="true"
+            android:focusable="false"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/click_large"
+            android:id="@+id/click_large"
+            android:gravity="center_horizontal"
+            android:layout_alignBottom="@id/show_image">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="点击查看大图"
+                android:textSize="20sp"
+                android:textColor="#fff"
+                android:background="#00000000"
+                android:drawableLeft="@mipmap/check_full_pic_btn"
+                android:drawablePadding="10dp"
+                />
+        </LinearLayout>
+        </RelativeLayout>
+        <include layout="@layout/comment_ding_layout"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#E6E6E6"></LinearLayout>
+    <include layout="@layout/zuixin_comment_layout"/>
+</LinearLayout>

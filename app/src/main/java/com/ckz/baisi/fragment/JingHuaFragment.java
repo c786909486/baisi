@@ -48,8 +48,10 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
     private List<String> titleList = new ArrayList<>(); //页卡标题集合
     private ArrayList<Fragment> viewList = new ArrayList<>(); //页卡视图集合
     private int jinghua_position = 0;
+    private TuijianFragment fragment_tuijian, fragment_shiping, fragment_tupian, fragment_duanzi, fragment_yuanchuang, fragment_paihang, fragment_wanghong,
+    fragment_shehui, fragment_meinv, fragment_lengzhishi, fragment_youxi;
     //json网址
-    private String url[] = new String[]{
+    public static final String url[] = new String[]{
             //推荐
             "http://s.budejie.com/topic/list/jingxuan/1/budejie-android-6.6.2/0-20.json?",
             //视频
@@ -112,6 +114,7 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(jinghua_position);
        //Log.d("Tag",viewList.get(0).getContent());
+        viewPager.setCurrentItem(0);
 
         return view;
     }
@@ -129,17 +132,18 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
         titleList.add("冷知识");
         titleList.add("游戏");
 
-        TuijianFragment fragment_tuijian = new TuijianFragment();
-        TuijianFragment fragment_shiping = new TuijianFragment();
-        TuijianFragment fragment_tupian = new TuijianFragment();
-        TuijianFragment fragment_duanzi = new TuijianFragment();
-        TuijianFragment fragment_yuanchuang = new TuijianFragment();
-        TuijianFragment fragment_paihang = new TuijianFragment();
-        TuijianFragment fragment_wanghong = new TuijianFragment();
-        TuijianFragment fragment_shehui = new TuijianFragment();
-        TuijianFragment fragment_meinv = new TuijianFragment();
-        TuijianFragment fragment_lengzhishi = new TuijianFragment();
-        TuijianFragment fragment_youxi = new TuijianFragment();
+         fragment_tuijian = new TuijianFragment();
+         fragment_shiping = new TuijianFragment();
+         fragment_tupian = new TuijianFragment();
+         fragment_duanzi = new TuijianFragment();
+         fragment_yuanchuang = new TuijianFragment();
+         fragment_paihang = new TuijianFragment();
+         fragment_wanghong = new TuijianFragment();
+         fragment_shehui = new TuijianFragment();
+         fragment_meinv = new TuijianFragment();
+         fragment_lengzhishi = new TuijianFragment();
+         fragment_youxi = new TuijianFragment();
+
         fragment_tuijian.setContent(url[0]);
         fragment_shiping.setContent(url[1]);
         fragment_tupian.setContent(url[2]);
@@ -176,6 +180,7 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
       switch (v.getId()){
           case R.id.tool_bar_title:
               JingHuaFragment.setAni();
+              setClickRefresh();
               break;
           case R.id.top_games_btn:
               Intent intent = new Intent(getContext(), GongxianActivity.class);
@@ -192,4 +197,29 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
     }
+    public void setClickRefresh(){
+        if (fragment_tuijian.isVisible())
+            fragment_tuijian.refreshLayout.startRefresh();
+        if (fragment_shiping.isVisible())
+            fragment_shiping.refreshLayout.startRefresh();
+        if (fragment_tupian.isVisible())
+            fragment_tupian.refreshLayout.startRefresh();
+        if (fragment_duanzi.isVisible())
+            fragment_duanzi.refreshLayout.startRefresh();
+        if (fragment_yuanchuang.isVisible())
+            fragment_yuanchuang.refreshLayout.startRefresh();
+        if (fragment_paihang.isVisible())
+            fragment_paihang.refreshLayout.startRefresh();
+        if (fragment_wanghong.isVisible())
+            fragment_wanghong.refreshLayout.startRefresh();
+        if (fragment_shehui.isVisible())
+            fragment_shehui.refreshLayout.startRefresh();
+        if (fragment_meinv.isVisible())
+            fragment_meinv.refreshLayout.startRefresh();
+        if (fragment_lengzhishi.isVisible())
+            fragment_lengzhishi.refreshLayout.startRefresh();
+        if (fragment_youxi.isVisible())
+            fragment_youxi.refreshLayout.startRefresh();
+    }
+
 }

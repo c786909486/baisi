@@ -1,10 +1,12 @@
 package com.ckz.baisi.unitls;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by CKZ on 2017/2/21.
  */
 
-public class MyTimeUtils {
+public class MyIntegerUtils {
 
     public static String ss2mm(int duration){
         String time = "";
@@ -17,5 +19,17 @@ public class MyTimeUtils {
             time = mm+":"+ss;
         }
         return time;
+    }
+
+    public static String int2k(String index){
+        String count = "";
+        if (Integer.valueOf(index)<1000){
+            count = index;
+        }else {
+            float i = Integer.valueOf(index)/1000;
+            DecimalFormat df = new DecimalFormat("0.00");//格式化小数，不足的补0
+            count = df.format(i)+"K";
+        }
+        return count;
     }
 }

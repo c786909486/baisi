@@ -54,6 +54,14 @@
             android:visibility="gone"
             android:id="@+id/voice_loading"
             />
+        <TextView
+            android:id="@+id/voice_duration"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/voice_play_btn"
+            android:layout_alignBottom="@id/voice_play_btn"
+            android:text="4''"/>
     </RelativeLayout>
 
 

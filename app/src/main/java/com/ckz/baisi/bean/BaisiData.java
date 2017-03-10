@@ -112,6 +112,7 @@ public class BaisiData implements Serializable{
         private String id;
         private VideoBean video;
         private GifBean gif;
+        private HtmlBean html;
         private List<TagsBean> tags;
         private List<TopCommentsBean> top_comments;
 
@@ -233,6 +234,14 @@ public class BaisiData implements Serializable{
 
         public void setGif(GifBean gif) {
             this.gif = gif;
+        }
+
+        public HtmlBean getHtml() {
+            return html;
+        }
+
+        public void setHtml(HtmlBean html) {
+            this.html = html;
         }
 
         public List<TagsBean> getTags() {
@@ -574,7 +583,117 @@ public class BaisiData implements Serializable{
                 this.download_url = download_url;
             }
         }
+        public static class HtmlBean implements Serializable {
+            /**
+             * body :
+             * title : 你到多少岁还是个宝宝？ (13)
+             * thumbnail_small : ["http://wimg.spriteapp.cn/crop/150x150/capture/random/img/20170219222057_3522.jpg","http://dimg.spriteapp.cn/crop/150x150/capture/random/img/20170219222057_3522.jpg"]
+             * source_url : http://ilikeqz.cc/quiz/load/1476060/?&rd=1&pid=23752386
+             * desc : 你到多少岁还是个宝宝？
+             * type : 1
+             * thumbnail : ["http://wimg.spriteapp.cn/capture/random/img/20170219222057_3522.jpg","http://dimg.spriteapp.cn/capture/random/img/20170219222057_3522.jpg"]
+             * view : {"playcount":0,"playfcount":13}
+             */
 
+            private String body;
+            private String title;
+            private String source_url;
+            private String desc;
+            private int type;
+            private ViewBean view;
+            private List<String> thumbnail_small;
+            private List<String> thumbnail;
+
+            public String getBody() {
+                return body;
+            }
+
+            public void setBody(String body) {
+                this.body = body;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getSource_url() {
+                return source_url;
+            }
+
+            public void setSource_url(String source_url) {
+                this.source_url = source_url;
+            }
+
+            public String getDesc() {
+                return desc;
+            }
+
+            public void setDesc(String desc) {
+                this.desc = desc;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+
+            public ViewBean getView() {
+                return view;
+            }
+
+            public void setView(ViewBean view) {
+                this.view = view;
+            }
+
+            public List<String> getThumbnail_small() {
+                return thumbnail_small;
+            }
+
+            public void setThumbnail_small(List<String> thumbnail_small) {
+                this.thumbnail_small = thumbnail_small;
+            }
+
+            public List<String> getThumbnail() {
+                return thumbnail;
+            }
+
+            public void setThumbnail(List<String> thumbnail) {
+                this.thumbnail = thumbnail;
+            }
+
+            public static class ViewBean implements Serializable {
+                /**
+                 * playcount : 0
+                 * playfcount : 13
+                 */
+
+                private int playcount;
+                private int playfcount;
+
+                public int getPlaycount() {
+                    return playcount;
+                }
+
+                public void setPlaycount(int playcount) {
+                    this.playcount = playcount;
+                }
+
+                public int getPlayfcount() {
+                    return playfcount;
+                }
+
+                public void setPlayfcount(int playfcount) {
+                    this.playfcount = playfcount;
+                }
+            }
+        }
         public static class TagsBean implements Serializable{
             /**
              * id : 60

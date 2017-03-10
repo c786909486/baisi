@@ -124,6 +124,12 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.userName.setMovementMethod(LinkMovementMethod.getInstance());
         holder.userName.setHighlightColor(Color.parseColor("#ffffff"));
         holder.userName.setText(string);
+        holder.voice_duration.setText(mData.get(position).getAudio().getDuration()+"''");
+        setPlayer(holder,position);
+    }
+
+    //播放功能
+    private void setPlayer(final VoiceCommentViewHolder holder, final int position){
         if (mPlayer==null){
             animationDrawable = (AnimationDrawable) holder.voice_play_ani.getDrawable();
             hideVoiceViews(holder);
@@ -217,7 +223,7 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void updateDrawState(TextPaint ds) {
             super.updateDrawState(ds);
             ds.setUnderlineText(false);
-            ds.setColor(Color.BLUE);
+            ds.setColor(Color.parseColor("#4574AA"));
 
         }
         @Override
@@ -249,6 +255,7 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ProgressBar loading;
         TextView userName;
         RelativeLayout voice_play_area;
+        TextView voice_duration;
         public VoiceCommentViewHolder(View itemView) {
             super(itemView);
             userName = (TextView) itemView.findViewById(R.id.top_voice_user_name);
@@ -256,6 +263,7 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             voice_play_ani = (ImageView) itemView.findViewById(R.id.voide_play_ani);
             voice_play_icon = (ImageView) itemView.findViewById(R.id.voide_play_icon);
             loading = (ProgressBar) itemView.findViewById(R.id.voice_loading);
+            voice_duration = (TextView) itemView.findViewById(R.id.voice_duration);
             voice_play_area = (RelativeLayout) itemView.findViewById(R.id.top_voice_play_area);
             voice_play_area.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -266,16 +274,8 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
     private void setIntent(){
-        Intent intent = null;
-        if (listBean.getType().equals("image")){
-            intent = new Intent(context, ImageCommentActivity.class);
-        }else if (listBean.getType().equals("gif")){
-            intent = new Intent(context, GifCommentActivity.class);
-        }else if (listBean.getType().equals("video")){
-            intent = new Intent(context, VideoCommentActivity.class);
-        }else if (listBean.getType().equals("text")){
-            intent = new Intent(context,CommentActivity.class);
-        }
+        Intent intent =  new Intent(context,CommentActivity.class);
+
         Bundle bundle = new Bundle();
         bundle.putSerializable("Data",listBean);
         intent.putExtra("Id",bundle);

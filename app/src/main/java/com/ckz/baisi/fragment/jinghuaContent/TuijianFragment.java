@@ -21,6 +21,8 @@ import com.ckz.baisi.adapter.MyContentAdapter;
 import com.ckz.baisi.adapter.TopCommentAdapter;
 import com.ckz.baisi.appliction.MyAppliction;
 import com.ckz.baisi.bean.BaisiData;
+import com.ckz.baisi.fragment.JingHuaFragment;
+import com.ckz.baisi.fragment.ZuiXinFragment;
 import com.ckz.baisi.request.GsonRequest;
 import com.ckz.baisi.unitls.ACache;
 import com.ckz.baisi.unitls.SPUtils;
@@ -56,50 +58,8 @@ public class TuijianFragment extends Fragment {
 
     private Timer timer = new Timer();
 
-    private static final String jingXuanUrl[] =new String[]{
-            //推荐
-            "http://s.budejie.com/topic/list/jingxuan/1/budejie-android-6.6.2/0-20.json?",
-            //视频
-            "http://s.budejie.com/topic/list/jingxuan/41/budejie-android-6.6.2/0-20.json?",
-            //图片
-            "http://s.budejie.com/topic/list/jingxuan/10/budejie-android-6.6.2/0-20.json?",
-            //段子
-            "http://s.budejie.com/topic/tag-topic/64/hot/budejie-android-6.6.2/0-20.json?",
-            //原创
-            "http://s.budejie.com/topic/tag-topic/44289/hot/budejie-android-6.6.2/0-20.json?",
-            //网红
-            "http://s.budejie.com/topic/tag-topic/3096/hot/budejie-android-6.6.2/0-20.json?",
-            //排行
-            "http://s.budejie.com/topic/list/remen/1/budejie-android-6.6.2/0-20.json?",
-            //社会
-            "http://s.budejie.com/topic/tag-topic/473/hot/budejie-android-6.6.2/0-20.json?",
-            //美女
-            "http://s.budejie.com/topic/tag-topic/117/hot/budejie-android-6.6.2/0-20.json?",
-            //冷知识
-            "http://s.budejie.com/topic/tag-topic/3176/hot/budejie-android-6.6.2/0-20.json?",
-            //游戏
-            "http://s.budejie.com/topic/tag-topic/164/hot/budejie-android-6.6.2/0-20.json?"
-    } ;
-    private static final String zuiXinUrl[] = new String[]{
-            //全部
-            "http://s.budejie.com/topic/list/zuixin/1/budejie-android-6.6.2/0-20.json?",
-            //视频
-            "http://s.budejie.com/topic/list/zuixin/41/budejie-android-6.6.2/0-20.json?",
-            //图片
-            "http://s.budejie.com/topic/list/zuixin/10/budejie-android-6.6.2/0-20.json?",
-            //段子
-            "http://s.budejie.com/topic/list/zuixin/29/budejie-android-6.6.2/0-20.json?",
-            //原创
-            "http://s.budejie.com/topic/tag-topic/44289/new/budejie-android-6.6.2/0-20.json?",
-            //网红
-            "http://s.budejie.com/topic/tag-topic/3096/new/budejie-android-6.6.2/0-20.json?",
-            //美女
-            "http://s.budejie.com/topic/tag-topic/117/new/budejie-android-6.6.2/0-20.json?",
-            //冷知识
-            "http://s.budejie.com/topic/tag-topic/3176/new/budejie-android-6.6.2/0-20.json?",
-            //游戏
-            "http://s.budejie.com/topic/tag-topic/164/new/budejie-android-6.6.2/0-20.json?"
-    };
+    private static final String jingXuanUrl[] = JingHuaFragment.url;
+//    private static final String zuiXinUrl[] = ZuiXinFragment.url;
 
     public String getContent(){
         return content;
@@ -144,7 +104,7 @@ public class TuijianFragment extends Fragment {
             @Override
             public void run() {
                 getTimeCha();
-               handler.sendEmptyMessage(123);
+                handler.sendEmptyMessage(123);
             }
         },1000,1000);
         getCacheData();
@@ -174,28 +134,30 @@ public class TuijianFragment extends Fragment {
     }
 
 
-    private void refreshData(){
+    public void refreshData(){
         refreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+
             @Override
             public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
+                JingHuaFragment.setAni();
                 //刷新数据
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         getData(content,true);
                         saveRefreshTime();
-                        getTimeCha();
+                       // getTimeCha();
                         refreshLayout.finishRefreshing();
+                        JingHuaFragment.animator.cancel();
                     }
                 },1000);
             }
 
             @Override
             public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
-
                 long loadTime = System.currentTimeMillis()/1000-(pageCount+1)*10*3600;
                 loadMoreUrl = content.replace("0-20",loadTime+"-20");
-               //加载更多
+                //加载更多
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -215,17 +177,21 @@ public class TuijianFragment extends Fragment {
         GsonRequest<BaisiData> gsonRequest = new GsonRequest<BaisiData>(content, BaisiData.class, new Response.Listener<BaisiData>() {
             @Override
             public void onResponse(BaisiData baisiData) {
-             List<BaisiData.ListBean> listBeen = baisiData.getList();
-                listBeen.removeAll(mData);
+                List<BaisiData.ListBean> listBeen = baisiData.getList();
+                int lastNum = mData.size();
+                mData.removeAll(listBeen);
                 if (isRefresh){
                     mData.addAll(0,listBeen);
+                    int nowNum = mData.size();
+                    int num = nowNum - lastNum;
+                    if (getUserVisibleHint())
+                        Toast.makeText(getContext(),"更新了"+num+"条内容",Toast.LENGTH_SHORT).show();
+
                 }else {
                     mData.addAll(listBeen);
                 }
                 adapter.notifyDataSetChanged();
                 saveAllData();
-                if (getUserVisibleHint())
-                Toast.makeText(getContext(),"更新了"+listBeen.size()+"条内容",Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
@@ -236,11 +202,7 @@ public class TuijianFragment extends Fragment {
         });
         MyAppliction.getRequestQueue().add(gsonRequest);
     }
-    @Override
-    public void onPause() {
-        super.onPause();
-        JCVideoPlayer.releaseAllVideos();
-    }
+
     //根据不同界面存储各自的刷新时间
     private void saveRefreshTime(){
         //精选
@@ -255,17 +217,6 @@ public class TuijianFragment extends Fragment {
         if (content.equals(jingXuanUrl[8])) SPUtils.putlongSp(getActivity(),"JXMN",System.currentTimeMillis());
         if (content.equals(jingXuanUrl[9])) SPUtils.putlongSp(getActivity(),"JXLZS",System.currentTimeMillis());
         if (content.equals(jingXuanUrl[10]))SPUtils.putlongSp(getActivity(),"JXYX",System.currentTimeMillis());
-        //最新
-        if (content.equals(zuiXinUrl[0]))  SPUtils.putlongSp(getActivity(),"ZXQB",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[1]))  SPUtils.putlongSp(getActivity(),"ZXSP",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[2]))  SPUtils.putlongSp(getActivity(),"ZXTP",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[3]))  SPUtils.putlongSp(getActivity(),"ZXDZ",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[4]))  SPUtils.putlongSp(getActivity(),"ZXYC",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[5]))  SPUtils.putlongSp(getActivity(),"ZXWH",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[6]))  SPUtils.putlongSp(getActivity(),"ZXMN",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[7]))  SPUtils.putlongSp(getActivity(),"ZXLZS",System.currentTimeMillis());
-        if (content.equals(zuiXinUrl[8]))  SPUtils.putlongSp(getActivity(),"ZXYX",System.currentTimeMillis());
-
     }
 
     //不同界面获取不同时间差
@@ -282,16 +233,6 @@ public class TuijianFragment extends Fragment {
         if (content.equals(jingXuanUrl[8]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXMN");
         if (content.equals(jingXuanUrl[9]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXLZS");
         if (content.equals(jingXuanUrl[10])) timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"JXYX");
-        //最新
-        if (content.equals(zuiXinUrl[0]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXQB");
-        if (content.equals(zuiXinUrl[1]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXSP");
-        if (content.equals(zuiXinUrl[2]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXTP");
-        if (content.equals(zuiXinUrl[3]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXDZ");
-        if (content.equals(zuiXinUrl[4]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXYC");
-        if (content.equals(zuiXinUrl[5]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXWH");
-        if (content.equals(zuiXinUrl[6]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXMN");
-        if (content.equals(zuiXinUrl[7]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXLZS");
-        if (content.equals(zuiXinUrl[8]))  timeCha = System.currentTimeMillis()- SPUtils.getlongSp(getActivity(),"ZXYX");
     }
     //存储个页面data数据
     private void saveAllData(){
@@ -309,16 +250,6 @@ public class TuijianFragment extends Fragment {
         if (content.equals(jingXuanUrl[8]))  cache.put("JXMND",baisiData,ACache.TIME_DAY);
         if (content.equals(jingXuanUrl[9]))  cache.put("JXLZSD",baisiData,ACache.TIME_DAY);
         if (content.equals(jingXuanUrl[10]))  cache.put("JXYXD",baisiData,ACache.TIME_DAY);
-        //最新
-        if (content.equals(zuiXinUrl[0]))  cache.put("ZXQBD",baisiData,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[1]))  cache.put("ZXSPD",baisiData,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[2]))  cache.put("ZXTPD",baisiData,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[3]))  cache.put("ZXDZD",baisiData,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[4]))  cache.put("ZXYCD",baisiData,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[5]))  cache.put("ZXWHD",baisiData,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[6]))  cache.put("ZXMND",baisiData,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[7]))  cache.put("ZXLZSD",baisiData,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[8]))  cache.put("ZXYXD",baisiData,ACache.TIME_DAY);
     }
     //获取data数据
     private void getCacheData(){
@@ -334,16 +265,6 @@ public class TuijianFragment extends Fragment {
         if (content.equals(jingXuanUrl[8]))   baisi = (BaisiData) cache.getAsObject("JXMND");
         if (content.equals(jingXuanUrl[9]))   baisi = (BaisiData) cache.getAsObject("JXLZSD");
         if (content.equals(jingXuanUrl[10]))   baisi = (BaisiData) cache.getAsObject("JXYXD");
-        //最新
-        if (content.equals(zuiXinUrl[0]))   baisi = (BaisiData) cache.getAsObject("ZXQBD");
-        if (content.equals(zuiXinUrl[1]))   baisi = (BaisiData) cache.getAsObject("ZXSPD");
-        if (content.equals(zuiXinUrl[2]))   baisi = (BaisiData) cache.getAsObject("ZXTPD");
-        if (content.equals(zuiXinUrl[3]))   baisi = (BaisiData) cache.getAsObject("ZXDZD");
-        if (content.equals(zuiXinUrl[4]))   baisi = (BaisiData) cache.getAsObject("ZXYCD");
-        if (content.equals(zuiXinUrl[5]))   baisi = (BaisiData) cache.getAsObject("ZXWHD");
-        if (content.equals(zuiXinUrl[6]))   baisi = (BaisiData) cache.getAsObject("ZXMND");
-        if (content.equals(zuiXinUrl[7]))   baisi = (BaisiData) cache.getAsObject("ZXLZSD");
-        if (content.equals(zuiXinUrl[8]))   baisi = (BaisiData) cache.getAsObject("ZXYXD");
     }
     //保存加载更多的页数
     private void savePageCount(){
@@ -359,16 +280,6 @@ public class TuijianFragment extends Fragment {
         if (content.equals(jingXuanUrl[8]))  cache.put("JXMNP",pageCount,ACache.TIME_DAY);
         if (content.equals(jingXuanUrl[9]))  cache.put("JXLZSP",pageCount,ACache.TIME_DAY);
         if (content.equals(jingXuanUrl[10]))  cache.put("JXYXP",pageCount,ACache.TIME_DAY);
-        //最新
-        if (content.equals(zuiXinUrl[0]))   cache.put("ZXQBP",pageCount,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[1]))   cache.put("ZXSPP",pageCount,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[2]))   cache.put("ZXTPP",pageCount,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[3]))   cache.put("ZXDZP",pageCount,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[4]))   cache.put("ZXYCP",pageCount,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[5]))   cache.put("ZXWHP",pageCount,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[6]))   cache.put("ZXMNP",pageCount,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[7]))   cache.put("ZXLZSP",pageCount,ACache.TIME_DAY);
-        if (content.equals(zuiXinUrl[8]))   cache.put("ZXYXP",pageCount,ACache.TIME_DAY);
 
     }
     //获取加载更多页数
@@ -384,16 +295,6 @@ public class TuijianFragment extends Fragment {
         if (content.equals(jingXuanUrl[8]))   pageCount = (int) cache.getAsObject("JXMNP");
         if (content.equals(jingXuanUrl[9]))   pageCount = (int) cache.getAsObject("JXLZSP");
         if (content.equals(jingXuanUrl[10]))   pageCount = (int) cache.getAsObject("JXYXP");
-        //最新
-        if (content.equals(zuiXinUrl[0]))   pageCount = (int) cache.getAsObject("ZXQBP");
-        if (content.equals(zuiXinUrl[1]))   pageCount = (int) cache.getAsObject("ZXSPP");
-        if (content.equals(zuiXinUrl[2]))   pageCount = (int) cache.getAsObject("ZXTPP");
-        if (content.equals(zuiXinUrl[3]))   pageCount = (int) cache.getAsObject("ZXDZP");
-        if (content.equals(zuiXinUrl[4]))   pageCount = (int) cache.getAsObject("ZXYCP");
-        if (content.equals(zuiXinUrl[5]))   pageCount = (int) cache.getAsObject("ZXWHP");
-        if (content.equals(zuiXinUrl[6]))   pageCount = (int) cache.getAsObject("ZXMNP");
-        if (content.equals(zuiXinUrl[7]))   pageCount = (int) cache.getAsObject("ZXLZSP");
-        if (content.equals(zuiXinUrl[8]))   pageCount = (int) cache.getAsObject("ZXYXP");
     }
 
 
@@ -409,5 +310,11 @@ public class TuijianFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         timer.cancel();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
     }
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Baisi</string>
+    <string name="no_data_txt">啤酒饮料矿泉水，沙发板凳小马扎</string>
+    <string name="user_name_size">12sp</string>
 </resources>

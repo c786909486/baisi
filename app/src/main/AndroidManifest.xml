@@ -31,7 +31,10 @@
         <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.ImageCommentActivity" />
         <activity android:name=".activity.GifCommentActivity" />
-        <activity android:name=".activity.VideoCommentActivity"></activity>
+        <activity android:name=".activity.VideoCommentActivity" />
+        <activity android:name=".activity.HtmlActivity" />
+        <activity android:name=".activity.PlayVideoActivity" />
+        <activity android:name=".activity.ShowCommentImage"></activity>
     </application>
 
 </manifest>

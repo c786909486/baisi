@@ -28,7 +28,7 @@ public class ShowCommentImage extends AppCompatActivity {
         int size[] = getIntent().getBundleExtra("image").getIntArray("size");
         assert size != null;
         Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.baisibudejie)
-                .fitCenter().override(size[0],size[1]).dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
+                .fitCenter().dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String s, Target<GlideDrawable> target, boolean b) {
                 return false;

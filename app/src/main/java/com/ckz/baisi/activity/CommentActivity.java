@@ -1,6 +1,7 @@
 package com.ckz.baisi.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Message;
@@ -164,13 +165,14 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
         nomalAdapter = new NormalCommentAdapter(this,normalBeenList);
-        newCommentList.setAdapter(nomalAdapter);
         setHeadView();
         newCommentList.addHeaderView(contentView,null,false);
+        newCommentList.setAdapter(nomalAdapter);
         newCommentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context,"弹出点赞窗口",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"弹出点赞窗口,ID为："+normalBeenList.get((int) parent.getAdapter().getItemId(position)).getUser().getUsername(),Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -227,6 +229,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                     .dontAnimate()
                     .into(show_image);
         }
+        show_image.setOnClickListener(this);
     }
 
     //设置gif
@@ -236,6 +239,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                 .asGif()
                 .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(show_gif);
+        show_gif.setOnClickListener(this);
     }
 
     //设置视频内容
@@ -307,7 +311,8 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         hotCommentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context,"弹出点赞窗口",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"弹出点赞窗口,ID为："+hotBeanList.get((int) parent.getAdapter().getItemId(position)).getUser().getUsername(),Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -474,6 +479,14 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                     quanwen_btn.setText("全文");
                     type = QUANWEN;
                 }
+                break;
+            case R.id.show_gif:
+            case R.id.show_image:
+                Intent intent = new Intent(context, ShowBigImageActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("imageData",listBean);
+                intent.putExtra("image",bundle);
+                startActivity(intent);
                 break;
         }
     }

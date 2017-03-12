@@ -43,5 +43,6 @@ dependencies {
     compile files('libs/volley.jar')
     compile(name: 'jiecaovideoplayer-5.4', ext: 'aar')
     compile files('libs/photoview-library-1.2.2.jar')
-
+    compile 'com.github.hotchemi:permissionsdispatcher:2.3.2'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.2'
 }

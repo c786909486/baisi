@@ -38,7 +38,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/voice_ani"
+            android:src="@mipmap/ic_trumpet_3"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:layout_centerVertical="true"

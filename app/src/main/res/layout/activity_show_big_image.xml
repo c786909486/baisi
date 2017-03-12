@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_show_big_image"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ckz.baisi.activity.ShowBigImageActivity">
+
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/refresh_layout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/big_comment_list">
+        </ListView>
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/show_big_back"
+        android:layout_margin="10dp"
+        android:id="@+id/big_back"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/click_large"
+        android:id="@+id/bottom_group">
+        <TextView
+            android:id="@+id/show_big_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保存"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:drawableLeft="@drawable/showbig_bottom_save"
+            android:layout_marginLeft="5dp"
+            android:padding="10dp"
+            android:drawablePadding="5dp"/>
+        <TextView
+            android:id="@+id/show_big_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="写评论"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:drawableLeft="@drawable/showbig_bottom_comment"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:padding="10dp"
+            android:drawablePadding="5dp"/>
+        <TextView
+            android:id="@+id/show_big_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:drawableLeft="@drawable/showbig_bottom_share"
+            android:layout_marginRight="5dp"
+            android:padding="10dp"
+            android:drawablePadding="5dp"
+            android:layout_toLeftOf="@id/show_big_comment"/>
+    </RelativeLayout>
+</RelativeLayout>

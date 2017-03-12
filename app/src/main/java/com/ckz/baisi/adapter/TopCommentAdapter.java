@@ -176,14 +176,17 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             animationDrawable.stop();
                             holder.voice_play_icon.setVisibility(View.VISIBLE);
                             currentState = CURRENT_STATE_RELEASE;
+                            if (!mPlayer.isPlaying()){
+                                currentState = CURRENT_STATE_RELEASE;
+                                hideVoiceViews(holder);
+                                holder.voice_play_icon.setVisibility(View.VISIBLE);
+                            }
                         }
                     });
 
                     currentState = CURRENT_STATE_PLAYING;
                 }else {
-                    if (!mPlayer.isPlaying()){
-                        currentState = CURRENT_STATE_RELEASE;
-                    }
+
                     mPlayer.reset();
                     mPlayer.release();
                     hideVoiceViews(holder);
@@ -256,6 +259,7 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView userName;
         RelativeLayout voice_play_area;
         TextView voice_duration;
+        MediaPlayer player;
         public VoiceCommentViewHolder(View itemView) {
             super(itemView);
             userName = (TextView) itemView.findViewById(R.id.top_voice_user_name);
@@ -271,6 +275,8 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     setIntent();
                 }
             });
+            player = new MediaPlayer();
+            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
     }
     private void setIntent(){

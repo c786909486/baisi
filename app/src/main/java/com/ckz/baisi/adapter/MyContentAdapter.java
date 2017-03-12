@@ -24,8 +24,10 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.ckz.baisi.R;
 import com.ckz.baisi.activity.CommentActivity;
 import com.ckz.baisi.activity.HtmlActivity;
+import com.ckz.baisi.activity.ShowBigImageActivity;
 import com.ckz.baisi.bean.BaisiData;
 import com.ckz.baisi.unitls.CalLinesUtils;
+import com.ckz.baisi.unitls.GetGlest;
 import com.ckz.baisi.unitls.MyIntegerUtils;
 import com.ckz.baisi.unitls.ScreenUtils;
 import com.ckz.baisi.view.CircleImageView;
@@ -243,7 +245,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     /**
      * 设置gif数据
      */
-    private void setGifData(final GifViewHolder holder,int position){
+    private void setGifData(final GifViewHolder holder, final int position){
         /*
          * 显示正文内容
          * 设置gif图片
@@ -257,6 +259,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 .placeholder(R.mipmap.bg_activities_item_end_transparent)
                 .dontAnimate()
                 .into(holder.show_gif);
+        holder.show_gif.setOnClickListener(listener);
          /*
          * 设置用户信息以及发布时间
          */
@@ -280,6 +283,10 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         MyClickListener listener = new MyClickListener(position);
         holder.image_txt.setText(mData.get(position).getText());
         holder.image_txt.setOnClickListener(listener);
+        if (mData.get(position).getImage().getHeight()>= GetGlest.getGLESTextureLimit()){
+            Glide.with(context).load(mData.get(position).getImage().getBig().get(0))
+                    .downloadOnly(mData.get(position).getImage().getWidth(),mData.get(position).getImage().getHeight());
+        }
         if (mData.get(position).getImage().getHeight()> ScreenUtils.getScreenHeight(context)){
             holder.click_large.setVisibility(View.VISIBLE);
             Glide.with(context).load(mData.get(position).getImage().getBig().get(0))
@@ -302,6 +309,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .dontAnimate().into(holder.image_show);
             holder.click_large.setVisibility(View.GONE);
         }
+        holder.image_show.setOnClickListener(listener);
 
         /*
          * 设置用户信息以及发布时间
@@ -575,6 +583,14 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
              case R.id.text_content:
              case R.id.commend_button:
                 setIntent(position);
+                 break;
+             case R.id.show_gif:
+             case R.id.show_image:
+                 Intent intent = new Intent(context, ShowBigImageActivity.class);
+                 Bundle bundle = new Bundle();
+                 bundle.putSerializable("imageData",mData.get(position));
+                 intent.putExtra("image",bundle);
+                 context.startActivity(intent);
                  break;
          }
         }

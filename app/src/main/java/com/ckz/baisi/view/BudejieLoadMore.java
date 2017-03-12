@@ -44,7 +44,6 @@ public class BudejieLoadMore extends FrameLayout implements IBottomView {
 
     @Override
     public void startAnim(float maxHeadHeight, float headHeight) {
-
     }
 
     @Override

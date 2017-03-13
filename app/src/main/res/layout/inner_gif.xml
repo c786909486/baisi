@@ -14,7 +14,7 @@
             android:id="@+id/inner_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="123123"
             android:textAppearance="?android:attr/textAppearance"/>
         <ImageView

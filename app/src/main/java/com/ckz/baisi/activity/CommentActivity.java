@@ -407,7 +407,6 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                         refreshLayout.setEnableLoadmore(true);
                     }else {
                         refreshLayout.setEnableLoadmore(false);
-                        Toast.makeText(context,"没有更多数据了",Toast.LENGTH_SHORT).show();
                     }
                 }else {
                     dataView.setVisibility(View.GONE);

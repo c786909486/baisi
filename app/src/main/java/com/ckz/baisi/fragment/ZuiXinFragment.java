@@ -1,5 +1,6 @@
 package com.ckz.baisi.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ckz.baisi.R;
 import com.ckz.baisi.adapter.MyPagerAdapter;
@@ -31,6 +33,7 @@ public class ZuiXinFragment extends Fragment implements View.OnClickListener {
     private ImageView textView;
     public static ImageView imageView;
     public static Animation animator = null;
+    public static TextView showToast;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private MyPagerAdapter adapter;
@@ -145,6 +148,7 @@ public class ZuiXinFragment extends Fragment implements View.OnClickListener {
         tabLayout = (TabLayout) view.findViewById(R.id.zuixin_tablayout);
         shenhe_btn = (ImageButton) view.findViewById(R.id.top_shenhe_btn);
         search_btn = (ImageButton) view.findViewById(R.id.top_search_btn);
+        showToast = (TextView) view.findViewById(R.id.zuixin_show_toast);
     }
 
 
@@ -162,10 +166,8 @@ public class ZuiXinFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
-
     public static void setAni() {
         imageView.startAnimation(animator);
-
     }
 
     public void setClickRefresh() {

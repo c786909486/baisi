@@ -25,6 +25,7 @@ import com.ckz.baisi.fragment.JingHuaFragment;
 import com.ckz.baisi.fragment.ZuiXinFragment;
 import com.ckz.baisi.request.GsonRequest;
 import com.ckz.baisi.unitls.ACache;
+import com.ckz.baisi.unitls.MyToastUtils;
 import com.ckz.baisi.unitls.SPUtils;
 import com.ckz.baisi.view.BudejieRefresh;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -173,7 +174,7 @@ public class TuijianFragment extends Fragment {
         });
     }
 
-    private void getData(String content, final boolean isRefresh){
+    private void getData(final String content, final boolean isRefresh){
         GsonRequest<BaisiData> gsonRequest = new GsonRequest<BaisiData>(content, BaisiData.class, new Response.Listener<BaisiData>() {
             @Override
             public void onResponse(BaisiData baisiData) {
@@ -185,8 +186,8 @@ public class TuijianFragment extends Fragment {
                     int nowNum = mData.size();
                     int num = nowNum - lastNum;
                     if (getUserVisibleHint())
-                        Toast.makeText(getContext(),"更新了"+num+"条内容",Toast.LENGTH_SHORT).show();
-
+                       // Toast.makeText(getContext(),"更新了"+num+"条内容",Toast.LENGTH_SHORT).show();
+                    MyToastUtils.showRefreshTosat(getContext(),JingHuaFragment.showToast,"更新了"+num+"条内容");
                 }else {
                     mData.addAll(listBeen);
                 }

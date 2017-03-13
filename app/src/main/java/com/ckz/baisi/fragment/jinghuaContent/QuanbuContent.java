@@ -25,6 +25,7 @@ import com.ckz.baisi.fragment.JingHuaFragment;
 import com.ckz.baisi.fragment.ZuiXinFragment;
 import com.ckz.baisi.request.GsonRequest;
 import com.ckz.baisi.unitls.ACache;
+import com.ckz.baisi.unitls.MyToastUtils;
 import com.ckz.baisi.unitls.SPUtils;
 import com.ckz.baisi.view.BudejieRefresh;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -178,18 +179,20 @@ public class QuanbuContent extends Fragment {
             @Override
             public void onResponse(BaisiData baisiData) {
                 List<BaisiData.ListBean> listBeen = baisiData.getList();
-                List<BaisiData.ListBean> been = baisiData.getList();
-                been.removeAll(mData);
+                int lastNum = mData.size();
                 mData.removeAll(listBeen);
                 if (isRefresh){
                     mData.addAll(0,listBeen);
+                    int nowNum = mData.size();
+                    int num = nowNum - lastNum;
+                    if (getUserVisibleHint())
+                        // Toast.makeText(getContext(),"更新了"+num+"条内容",Toast.LENGTH_SHORT).show();
+                        MyToastUtils.showRefreshTosat(getContext(),ZuiXinFragment.showToast,"获取到最新"+num+"条内容");
                 }else {
                     mData.addAll(listBeen);
                 }
                 adapter.notifyDataSetChanged();
                 saveAllData();
-                if (getUserVisibleHint())
-                    Toast.makeText(getContext(),"更新了"+been.size()+"条内容",Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {

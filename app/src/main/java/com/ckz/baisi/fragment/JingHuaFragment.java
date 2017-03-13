@@ -45,6 +45,7 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
     private TabLayout tabLayout;
     private MyPagerAdapter adapter;
     private ImageButton game_btn,suiji_btn;
+    public static TextView showToast;
     private List<String> titleList = new ArrayList<>(); //页卡标题集合
     private ArrayList<Fragment> viewList = new ArrayList<>(); //页卡视图集合
     private int jinghua_position = 0;
@@ -93,6 +94,7 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
         tabLayout = (TabLayout) view.findViewById(R.id.jinghua_tablayout);
         game_btn = (ImageButton) view.findViewById(R.id.top_games_btn);
         suiji_btn = (ImageButton) view.findViewById(R.id.top_suiji_btn);
+        showToast = (TextView) view.findViewById(R.id.jinghua_show_toast);
         game_btn.setOnClickListener(this);
         suiji_btn.setOnClickListener(this);
         setData();
@@ -188,6 +190,7 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
               break;
       }
     }
+
     public static void setAni(){
         imageView.startAnimation(animator);
     }

@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="baisiColor">#FF2D55</color>
     <color name="colorGray">#AAAAAA</color>
+    <color name="userName">#4574AA</color>
 </resources>

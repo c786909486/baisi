@@ -37,6 +37,7 @@ import com.ckz.baisi.bean.CommentBean;
 import com.ckz.baisi.request.GsonRequest;
 import com.ckz.baisi.unitls.GetGlest;
 import com.ckz.baisi.unitls.LogUtils;
+import com.ckz.baisi.unitls.MyToastUtils;
 import com.ckz.baisi.unitls.SDFileHelper;
 import com.ckz.baisi.unitls.ScreenUtils;
 import com.ckz.baisi.view.BudejieLoadMore;
@@ -82,7 +83,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
     //headView,显示大图
     private View view;
     //通用控件
-    private TextView commenTriangle;
+   // private TextView commenTriangle;
     private MyListView hotList;
     private HotCommentAdapter hotAdapter;
     private LinearLayout commentGroup;
@@ -157,7 +158,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
     }
     //设置通用控件
     private void setCommandView(View view){
-        commenTriangle = (TextView) view.findViewById(R.id.big_comment_triangle);
+       // commenTriangle = (TextView) view.findViewById(R.id.big_comment_triangle);
         hotList = (MyListView) view.findViewById(R.id.hot_comment_list);
         commentGroup = (LinearLayout) view.findViewById(R.id.big_comment_group);
         hotCommentView = (LinearLayout) view.findViewById(R.id.hot_comment_area);
@@ -234,13 +235,14 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
                     normalBeenList.addAll(normalBean);
                     nomalAdapter.notifyDataSetChanged();
                     commentGroup.setVisibility(View.VISIBLE);
-                    commenTriangle.setVisibility(View.VISIBLE);
-                    commenTriangle.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                           commenTriangle.setVisibility(View.GONE);
-                        }
-                    },500);
+//                    commenTriangle.setVisibility(View.VISIBLE);
+//                    commenTriangle.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                           commenTriangle.setVisibility(View.GONE);
+//                        }
+//                    },500);
+                    MyToastUtils.ShowBigToast(context,"上滑显示"+String.valueOf(commentBean.getNormal().getInfo().getCount())+"条评论");
                     if (commentBean.getNormal().getInfo().getCount()>normalBeenList.size()){
                         refreshLayout.setEnableLoadmore(true);
                     }else {
@@ -249,7 +251,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
                     }
                 }else {
                     commentGroup.setVisibility(View.GONE);
-                    commenTriangle.setVisibility(View.GONE);
+//                    commenTriangle.setVisibility(View.GONE);
                 }
                 page++;
                 LogUtils.d("DataSize",url);

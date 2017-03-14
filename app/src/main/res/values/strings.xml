@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Baisi</string>
     <string name="no_data_txt">啤酒饮料矿泉水，沙发板凳小马扎</string>
-    <string name="user_name_size">12sp</string>
+    <string name="cancle">取消</string>
+    <string name="send_video">发视频</string>
+    <string name="send_picture">发图片</string>
+    <string name="send_text">发段子</string>
+    <string name="send_voice">发声音</string>
+    <string name="send_link">发链接</string>
+
 </resources>

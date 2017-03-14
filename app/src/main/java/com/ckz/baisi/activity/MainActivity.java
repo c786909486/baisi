@@ -1,6 +1,7 @@
 package com.ckz.baisi.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ckz.baisi.R;
+import com.ckz.baisi.fragment.GuanzhuFragment;
 import com.ckz.baisi.fragment.JingHuaFragment;
+import com.ckz.baisi.fragment.WodeFragment;
 import com.ckz.baisi.fragment.ZuiXinFragment;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView jinghua,xintie,fabu,guanzhu,wo;
     private JingHuaFragment jinhuaFragment;
     private ZuiXinFragment zuiXinFragment;
+    private GuanzhuFragment guanzhuFragment;
+    private WodeFragment wodeFragment;
     private FragmentManager fManager;
 
     @Override
@@ -64,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void hideAllFragment(FragmentTransaction transaction) {
         if (jinhuaFragment !=null) transaction.hide(jinhuaFragment);
         if (zuiXinFragment !=null) transaction.hide(zuiXinFragment);
+        if (guanzhuFragment!=null) transaction.hide(guanzhuFragment);
+        if (wodeFragment!=null) transaction.hide(wodeFragment);
     }
 
     private void resetSeclect(){
@@ -109,18 +116,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resetSeclect();
                 type = GUANZHU;
                 guanzhu.setSelected(true);
-
+                if (guanzhuFragment == null){
+                    guanzhuFragment = new GuanzhuFragment();
+                    transaction.add(R.id.main_fragment_content,guanzhuFragment);
+                }else {
+                    transaction.show(guanzhuFragment);
+                }
                 break;
             case R.id.main_btn_wo:
                 resetSeclect();
                 type = WO;
                 wo.setSelected(true);
-
+                if (wodeFragment == null){
+                    wodeFragment = new WodeFragment();
+                    transaction.add(R.id.main_fragment_content,wodeFragment);
+                }else {
+                    transaction.show(wodeFragment);
+                }
                 break;
             case R.id.main_btn_fabu:
                 if (type == JINGHUA) transaction.show(jinhuaFragment);
-
-                Toast.makeText(this,type+"",Toast.LENGTH_SHORT).show();
+                if (type == XINTIE) transaction.show(zuiXinFragment);
+                if (type == GUANZHU) transaction.show(guanzhuFragment);
+                if (type == WO) transaction.show(wodeFragment);
+                Intent intent = new Intent(this,SendNewActivity.class);
+                startActivity(intent);
         }
         transaction.commit();
     }

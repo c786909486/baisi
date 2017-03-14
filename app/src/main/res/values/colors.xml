@@ -6,4 +6,6 @@
     <color name="baisiColor">#FF2D55</color>
     <color name="colorGray">#AAAAAA</color>
     <color name="userName">#4574AA</color>
+    <color name="mostBackground">#F2F2F2</color>
+    <color name="whilte">#FFFFFF</color>
 </resources>

@@ -2,12 +2,10 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -37,7 +35,7 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="@dimen/nameWithTime"
                 android:text="userName"
                 android:textAppearance="?android:attr/textAppearance"
                 android:textColor="@color/userName"
@@ -46,7 +44,7 @@
                 android:id="@+id/pass_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
+                android:textSize="@dimen/timeSize"
                 android:text="2017-02-13"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 />

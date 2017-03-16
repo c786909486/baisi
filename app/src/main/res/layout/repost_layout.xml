@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <include layout="@layout/user_icon_layout"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/mostBackground"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/repost_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_textSize"/>
+        <RelativeLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/repost_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"/>
+            <com.ckz.baisi.view.JCVideoCustom
+                android:id="@+id/repost_video"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.ckz.baisi.view.JCVideoCustom>
+        </RelativeLayout>
+    </LinearLayout>
+    <include layout="@layout/ding_layout"/>
+</LinearLayout>

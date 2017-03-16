@@ -86,7 +86,7 @@
         android:id="@+id/send_cancle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/whilte"
+        android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:text="@string/cancle"
         android:textSize="20sp"/>

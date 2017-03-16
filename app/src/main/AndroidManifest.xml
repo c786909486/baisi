@@ -30,7 +30,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.GongxianActivity" />
-        <activity android:name=".activity.UserDetilsActivity" />
+        <activity android:name=".activity.UserDetilsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.CommentActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -43,6 +45,7 @@
         <activity android:name=".activity.ShowCommentImage" />
         <activity android:name=".activity.ShowBigImageActivity" />
         <activity android:name=".activity.SendNewActivity"></activity>
+        <activity android:name=".activity.CommentFromUser"></activity>
     </application>
 
 </manifest>

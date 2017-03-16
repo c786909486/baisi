@@ -7,5 +7,7 @@
     <string name="send_text">发段子</string>
     <string name="send_voice">发声音</string>
     <string name="send_link">发链接</string>
+    <string name="back">返回</string>
+    <string name="content">正文内容</string>
 
 </resources>

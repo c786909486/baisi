@@ -1,6 +1,7 @@
 package com.ckz.baisi.adapter;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +31,14 @@ import com.ckz.baisi.R;
 import com.ckz.baisi.activity.CommentActivity;
 import com.ckz.baisi.activity.HtmlActivity;
 import com.ckz.baisi.activity.ShowBigImageActivity;
+import com.ckz.baisi.activity.UserDetilsActivity;
 import com.ckz.baisi.bean.BaisiData;
 import com.ckz.baisi.unitls.CalLinesUtils;
 import com.ckz.baisi.unitls.GetGlest;
+import com.ckz.baisi.unitls.LogUtils;
 import com.ckz.baisi.unitls.MyIntegerUtils;
 import com.ckz.baisi.unitls.ScreenUtils;
+import com.ckz.baisi.unitls.TextUtils;
 import com.ckz.baisi.view.CircleImageView;
 import com.ckz.baisi.view.JCVideoCustom;
 import java.util.List;
@@ -49,7 +58,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int DUANZITYPE = 3;
     private static final int VOICETYPE = 4;
     private static final int HTMLTYPE = 5;
-
+    private static final int REPONSETYPE = 6;
     private static final int QUANWEN = 0;
     private static final int SHOUQI = 1;
     private int type = QUANWEN;
@@ -89,7 +98,9 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return DUANZITYPE;
         }else if (mData.get(position).getType().equals("html")){
             return HTMLTYPE;
-        } else {
+        } else if (mData.get(position).getType().equals("repost")){
+            return REPONSETYPE;
+        }else {
             return VOICETYPE;
         }
     }
@@ -119,7 +130,11 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case HTMLTYPE:
                 view = LayoutInflater.from(context).inflate(R.layout.html_item_layout,null);
                 viewHolder = new HtmlViewHolder(view);
-
+                break;
+            case REPONSETYPE:
+                view = LayoutInflater.from(context).inflate(R.layout.repost_layout,null);
+                viewHolder = new RepostViewHolder(view);
+                break;
         }
         return viewHolder;
     }
@@ -148,9 +163,72 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 HtmlViewHolder htmlViewHolder = (HtmlViewHolder) holder;
                 setHtmlData(htmlViewHolder,position);
                 break;
+            case REPONSETYPE:
+                RepostViewHolder repostViewHolder = (RepostViewHolder) holder;
+                setRepostData(repostViewHolder,position);
         }
     }
+    /**
+     * 设置转载信息
+     */
+    @SuppressLint("SetTextI18n")
+    private void setRepostData(final RepostViewHolder holder, int position){
+        holder.text_content.setText(mData.get(position).getText());
+        String name = mData.get(position).getRepost().getU().getName();
+        String content = mData.get(position).getRepost().getText();
+        SpannableString string = new SpannableString(TextUtils.ToSBC(name+":"+content));
+        MyClickableSpan span = new MyClickableSpan(position);
+        string.setSpan(span,0,name.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        holder.repost_name.setMovementMethod(LinkMovementMethod.getInstance());
+        holder.repost_name.setHighlightColor(Color.parseColor("#ffffff"));
+        holder.repost_name.setText(string);
 
+        if (mData.get(position).getRepost().getType().equals("gif")){
+            hideView(holder);
+            holder.repost_image.setVisibility(View.VISIBLE);
+            Glide.with(context).load(mData.get(position).getRepost().getGif().getImages().get(0))
+                    .asGif().placeholder(R.mipmap.bg_activities_item_end_transparent)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).dontAnimate().into(holder.repost_image);
+        }else if (mData.get(position).getRepost().getType().equals("image")){
+            hideView(holder);
+            holder.repost_image.setVisibility(View.VISIBLE);
+            if (mData.get(position).getRepost().getImage().getHeight()>600){
+                Glide.with(context).load(mData.get(position).getImage().getBig().get(0)).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate().into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                        Bitmap bitmap1 = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),600);
+                        holder.repost_image.setImageBitmap(bitmap1);
+                    }
+                });
+            }else {
+                Glide.with(context).load(mData.get(position).getImage().getBig().get(0)).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate().into(holder.repost_image);
+            }
+        }else {
+            hideView(holder);
+            holder.repost_video.setVisibility(View.VISIBLE);
+            holder.repost_video.play_counts.setText(mData.get(position).getRepost().getVideo().getPlaycount()+"播放");
+            holder.repost_video.total_duration.setText(MyIntegerUtils.ss2mm(mData.get(position).getRepost().getVideo().getDuration()));
+            holder.repost_video.setUp(mData.get(position).getRepost().getVideo().getVideo().get(0),JCVideoPlayer.SCREEN_LAYOUT_LIST,"");
+            Glide.with(context).load(mData.get(position).getRepost().getVideo().getThumbnail().get(0))
+                    .placeholder(R.mipmap.bg_activities_item_end_transparent).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .dontAnimate().into(holder.repost_video.thumbImageView);
+        }
+          /*
+         * 设置用户信息以及发布时间
+         */
+        setUserData(context,holder.user_icon,holder.user_name,holder.pass_time,holder.user_layout,position);
+        /*
+         * 显示评论数
+         */
+        setBottomClick(holder.ding_btn,holder.cai_btn,holder.forward_btn,holder.commend_btn,holder.hot_commend,holder.list_top_icon,position);
+    }
+    //隐藏转载布局
+    private void hideView(RepostViewHolder holder){
+        holder.repost_video.setVisibility(View.GONE);
+        holder.repost_image.setVisibility(View.GONE);
+    }
     /**
      * 设置html数据
      */
@@ -396,7 +474,44 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemCount() {
         return mData.size();
     }
-
+    /**
+     *  转载布局
+     */
+    class RepostViewHolder extends RecyclerView.ViewHolder{
+        //用户头像区
+        CircleImageView user_icon;
+        TextView user_name,pass_time;
+        LinearLayout user_layout;
+        TextView text_content;
+        //repost_item
+        TextView repost_name;
+        ImageView repost_image;
+        JCVideoCustom repost_video;
+        //评论区
+        TextView ding_btn,cai_btn,forward_btn,commend_btn;
+        RecyclerView hot_commend;
+        ImageView list_top_icon;
+        public RepostViewHolder(View itemView) {
+            super(itemView);
+            user_icon = (CircleImageView) itemView.findViewById(R.id.image_user_icon);
+            user_name = (TextView) itemView.findViewById(R.id.user_name);
+            pass_time = (TextView) itemView.findViewById(R.id.pass_time);
+            user_layout = (LinearLayout) itemView.findViewById(R.id.user_layout);
+            text_content = (TextView) itemView.findViewById(R.id.text_content);
+            //
+           repost_image = (ImageView) itemView.findViewById(R.id.repost_image);
+            repost_name = (TextView) itemView.findViewById(R.id.repost_name);
+            repost_video = (JCVideoCustom) itemView.findViewById(R.id.repost_video);
+            //
+            ding_btn = (TextView) itemView.findViewById(R.id.ding_button);
+            cai_btn = (TextView) itemView.findViewById(R.id.cai_button);
+            forward_btn = (TextView) itemView.findViewById(R.id.forward_button);
+            commend_btn = (TextView) itemView.findViewById(R.id.commend_button);
+            hot_commend = (RecyclerView) itemView.findViewById(R.id.item_hot_commend);
+            hot_commend.setLayoutManager(new LinearLayoutManager(context));
+            list_top_icon = (ImageView) itemView.findViewById(R.id.list_top_icon);
+        }
+    }
     /**
      *  html布局
      */
@@ -595,6 +710,27 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
          }
         }
     }
+    class MyClickableSpan extends ClickableSpan {
+        private int position;
+        public MyClickableSpan(int position){
+            this.position = position;
+        }
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+            ds.setColor(Color.parseColor("#4574AA"));
+
+        }
+        @Override
+        public void onClick(View widget) {
+            Intent intent = new Intent(context, UserDetilsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("userId",mData.get(position).getU().getUid());
+            intent.putExtra("Id",bundle);
+            context.startActivity(intent);
+        }
+    }
     private void setIntent(int position){
         if (mData.get(position).getType().equals("html")){
             Intent intent = new Intent(context,HtmlActivity.class);
@@ -608,6 +744,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             bundle.putSerializable("Data",mData.get(position));
             intent.putExtra("Id",bundle);
             context.startActivity(intent);
+            LogUtils.d("repostIntent",mData.get(position).getText());
         }
 
     }

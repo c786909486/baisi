@@ -156,8 +156,7 @@ public class TuijianFragment extends Fragment {
 
             @Override
             public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
-                long loadTime = System.currentTimeMillis()/1000-(pageCount+1)*10*3600;
-                loadMoreUrl = content.replace("0-20",loadTime+"-20");
+                loadMoreUrl = content.replace("0-20",pageCount+"-20");
                 //加载更多
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
@@ -165,7 +164,6 @@ public class TuijianFragment extends Fragment {
                         savePageCount();
                         getPageCount();
                         getData(loadMoreUrl,false);
-                        pageCount++;
                         savePageCount();
                         refreshLayout.finishLoadmore();
                     }
@@ -178,6 +176,7 @@ public class TuijianFragment extends Fragment {
         GsonRequest<BaisiData> gsonRequest = new GsonRequest<BaisiData>(content, BaisiData.class, new Response.Listener<BaisiData>() {
             @Override
             public void onResponse(BaisiData baisiData) {
+                pageCount = baisiData.getInfo().getNp();
                 List<BaisiData.ListBean> listBeen = baisiData.getList();
                 int lastNum = mData.size();
                 mData.removeAll(listBeen);

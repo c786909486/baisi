@@ -180,6 +180,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
         share.setOnClickListener(this);
         comment.setOnClickListener(this);
         refreshLayout.setEnableRefresh(false);
+        refreshLayout.setOverScrollTopShow(false);
         nomalAdapter = new NormalCommentAdapter(context,normalBeenList);
         setHeaderView();
         normalList.addHeaderView(view);

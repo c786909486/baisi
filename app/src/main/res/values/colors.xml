@@ -7,5 +7,8 @@
     <color name="colorGray">#AAAAAA</color>
     <color name="userName">#4574AA</color>
     <color name="mostBackground">#F2F2F2</color>
-    <color name="whilte">#FFFFFF</color>
+    <color name="mostTextColor">#767676</color>
+    <color name="white">#FFFFFF</color>
+    <color name="tabTextColor">#FF91A2</color>
+    <color name="black">#000000</color>
 </resources>

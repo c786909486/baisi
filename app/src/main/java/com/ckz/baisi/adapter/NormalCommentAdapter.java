@@ -296,8 +296,7 @@ public class NormalCommentAdapter extends BaseAdapter {
         }
         //用户名
         userName.setText(mData.get(position).getUser().getUsername());
-        dingCount.setSelected(false);
-        caiCount.setSelected(false);
+
 
         setClick(dingCount,caiCount,position);
         //用户关注数
@@ -326,6 +325,8 @@ public class NormalCommentAdapter extends BaseAdapter {
 
     //顶踩点击
     private void setClick(final TextView ding, final TextView cai, final int position){
+        ding.setSelected(false);
+        cai.setSelected(false);
         //右边点赞数
         if (mACache.getAsString(String.valueOf(mData.get(position).getId()))!=null){
 

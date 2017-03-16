@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <include layout="@layout/user_comment_top"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="42dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/uset_txt_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/content"
+                android:textSize="@dimen/list_textSize"
+                android:textAppearance="?android:attr/textAppearance"/>
+            <ImageView
+                android:id="@+id/user_image"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/refresh_head_arrow"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/yuan_wen"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/mostBackground"
+                android:text="@string/content"
+                android:lines="1"
+                android:ellipsize="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/user_yuanwen"/>
+        </LinearLayout>
+
+</LinearLayout>

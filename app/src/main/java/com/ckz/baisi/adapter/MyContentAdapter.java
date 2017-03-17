@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -29,7 +30,9 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ckz.baisi.R;
 import com.ckz.baisi.activity.CommentActivity;
+import com.ckz.baisi.activity.CommentFromRepost;
 import com.ckz.baisi.activity.HtmlActivity;
+import com.ckz.baisi.activity.ShowBigFromRepost;
 import com.ckz.baisi.activity.ShowBigImageActivity;
 import com.ckz.baisi.activity.UserDetilsActivity;
 import com.ckz.baisi.bean.BaisiData;
@@ -173,48 +176,65 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     @SuppressLint("SetTextI18n")
     private void setRepostData(final RepostViewHolder holder, int position){
+        MyClickListener listener = new MyClickListener(position);
         holder.text_content.setText(mData.get(position).getText());
-        String name = mData.get(position).getRepost().getU().getName();
-        String content = mData.get(position).getRepost().getText();
-        SpannableString string = new SpannableString(TextUtils.ToSBC(name+":"+content));
-        MyClickableSpan span = new MyClickableSpan(position);
-        string.setSpan(span,0,name.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        holder.repost_name.setMovementMethod(LinkMovementMethod.getInstance());
-        holder.repost_name.setHighlightColor(Color.parseColor("#ffffff"));
-        holder.repost_name.setText(string);
-
-        if (mData.get(position).getRepost().getType().equals("gif")){
-            hideView(holder);
-            holder.repost_image.setVisibility(View.VISIBLE);
-            Glide.with(context).load(mData.get(position).getRepost().getGif().getImages().get(0))
-                    .asGif().placeholder(R.mipmap.bg_activities_item_end_transparent)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).dontAnimate().into(holder.repost_image);
-        }else if (mData.get(position).getRepost().getType().equals("image")){
-            hideView(holder);
-            holder.repost_image.setVisibility(View.VISIBLE);
-            if (mData.get(position).getRepost().getImage().getHeight()>600){
-                Glide.with(context).load(mData.get(position).getImage().getBig().get(0)).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate().into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
-                        Bitmap bitmap1 = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),600);
-                        holder.repost_image.setImageBitmap(bitmap1);
-                    }
-                });
+        if (mData.get(position).getRepost().getType()!=null){
+            holder.repost_group.setOnClickListener(listener);
+            holder.repost_name.setOnClickListener(listener);
+            String name = mData.get(position).getRepost().getU().getName();
+            String content = mData.get(position).getRepost().getText();
+            SpannableString string = new SpannableString(TextUtils.ToSBC(name+":"+content));
+            MyClickableSpan span = new MyClickableSpan(position);
+            string.setSpan(span,0,name.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            holder.repost_name.setMovementMethod(LinkMovementMethod.getInstance());
+            holder.repost_name.setHighlightColor(Color.parseColor("#ffffff"));
+            holder.repost_name.setText(string);
+            holder.repost_image.setOnClickListener(listener);
+            if (mData.get(position).getRepost().getType().equals("gif")){
+                hideView(holder);
+                holder.repost_image.setVisibility(View.VISIBLE);
+                Glide.with(context).load(mData.get(position).getRepost().getGif().getImages().get(0))
+                        .asGif().placeholder(R.mipmap.bg_activities_item_end_transparent)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE).dontAnimate().into(holder.repost_image);
+            }else if (mData.get(position).getRepost().getType().equals("image")){
+                hideView(holder);
+                holder.repost_image.setVisibility(View.VISIBLE);
+                if (mData.get(position).getRepost().getImage().getHeight()>ScreenUtils.getScreenHeight(context)){
+                    Glide.with(context).load(mData.get(position).getRepost().getImage().getBig().get(0)).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate().into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                            Bitmap bitmap1 = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),600);
+                            holder.repost_image.setImageBitmap(bitmap1);
+                        }
+                    });
+                }else {
+                    Glide.with(context).load(mData.get(position).getRepost().getImage().getBig().get(0)).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate().into(holder.repost_image);
+                }
             }else {
-                Glide.with(context).load(mData.get(position).getImage().getBig().get(0)).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate().into(holder.repost_image);
+                hideView(holder);
+                holder.repost_video.setVisibility(View.VISIBLE);
+                holder.repost_video.play_counts.setText(mData.get(position).getRepost().getVideo().getPlaycount()+"播放");
+                holder.repost_video.total_duration.setText(MyIntegerUtils.ss2mm(mData.get(position).getRepost().getVideo().getDuration()));
+                holder.repost_video.setUp(mData.get(position).getRepost().getVideo().getVideo().get(0),JCVideoPlayer.SCREEN_LAYOUT_LIST,"");
+                Glide.with(context).load(mData.get(position).getRepost().getVideo().getThumbnail().get(0))
+                        .placeholder(R.mipmap.bg_activities_item_end_transparent).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .dontAnimate().into(holder.repost_video.thumbImageView);
             }
         }else {
+            holder.repost_name.setText("抱歉，原帖已经被作者删除");
+            int color;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                 color = context.getResources().getColor(R.color.userName,null);
+            }else {
+                color = context.getResources().getColor(R.color.userName);
+            }
+            holder.repost_name.setTextColor(color);
             hideView(holder);
-            holder.repost_video.setVisibility(View.VISIBLE);
-            holder.repost_video.play_counts.setText(mData.get(position).getRepost().getVideo().getPlaycount()+"播放");
-            holder.repost_video.total_duration.setText(MyIntegerUtils.ss2mm(mData.get(position).getRepost().getVideo().getDuration()));
-            holder.repost_video.setUp(mData.get(position).getRepost().getVideo().getVideo().get(0),JCVideoPlayer.SCREEN_LAYOUT_LIST,"");
-            Glide.with(context).load(mData.get(position).getRepost().getVideo().getThumbnail().get(0))
-                    .placeholder(R.mipmap.bg_activities_item_end_transparent).diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .dontAnimate().into(holder.repost_video.thumbImageView);
         }
+
+
           /*
          * 设置用户信息以及发布时间
          */
@@ -412,12 +432,8 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 });
         user_name.setText(mData.get(position).getU().getName());
         pass_time.setText(mData.get(position).getPasstime());
-        user_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //弹出用户主页选项窗口
-            }
-        });
+        MyClickListener listener = new MyClickListener(position);
+        user_layout.setOnClickListener(listener);
     }
 
     //设置底部顶踩点击事件
@@ -487,6 +503,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView repost_name;
         ImageView repost_image;
         JCVideoCustom repost_video;
+        RelativeLayout repost_group;
         //评论区
         TextView ding_btn,cai_btn,forward_btn,commend_btn;
         RecyclerView hot_commend;
@@ -502,6 +519,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
            repost_image = (ImageView) itemView.findViewById(R.id.repost_image);
             repost_name = (TextView) itemView.findViewById(R.id.repost_name);
             repost_video = (JCVideoCustom) itemView.findViewById(R.id.repost_video);
+            repost_group = (RelativeLayout) itemView.findViewById(R.id.repost_group);
             //
             ding_btn = (TextView) itemView.findViewById(R.id.ding_button);
             cai_btn = (TextView) itemView.findViewById(R.id.cai_button);
@@ -707,6 +725,30 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                  intent.putExtra("image",bundle);
                  context.startActivity(intent);
                  break;
+             case R.id.user_layout:
+                 Intent intent1 = new Intent(context, UserDetilsActivity.class);
+                 Bundle bundle1 = new Bundle();
+                 bundle1.putString("userId",mData.get(position).getU().getUid());
+                 intent1.putExtra("Id",bundle1);
+                 context.startActivity(intent1);
+                 break;
+             case R.id.repost_image:
+                 Intent intent2 = new Intent(context, ShowBigFromRepost.class);
+                 Bundle bundle2 = new Bundle();
+                 bundle2.putSerializable("imageData",mData.get(position).getRepost());
+                 intent2.putExtra("image",bundle2);
+                 context.startActivity(intent2);
+                 break;
+             case R.id.repost_name:
+             case R.id.repost_group:
+                 Intent intent3 = new Intent(context,CommentFromRepost.class);
+                 Bundle bundle3 = new Bundle();
+                 bundle3.putSerializable("Data",mData.get(position).getRepost());
+                 intent3.putExtra("Id",bundle3);
+                 context.startActivity(intent3);
+                 break;
+
+
          }
         }
     }
@@ -726,7 +768,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onClick(View widget) {
             Intent intent = new Intent(context, UserDetilsActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("userId",mData.get(position).getU().getUid());
+            bundle.putString("userId",mData.get(position).getRepost().getU().getUid());
             intent.putExtra("Id",bundle);
             context.startActivity(intent);
         }
@@ -744,7 +786,6 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             bundle.putSerializable("Data",mData.get(position));
             intent.putExtra("Id",bundle);
             context.startActivity(intent);
-            LogUtils.d("repostIntent",mData.get(position).getText());
         }
 
     }

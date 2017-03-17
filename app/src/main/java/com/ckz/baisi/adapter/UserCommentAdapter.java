@@ -22,7 +22,6 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ckz.baisi.R;
-import com.ckz.baisi.activity.CommentActivity;
 import com.ckz.baisi.activity.CommentFromUser;
 import com.ckz.baisi.activity.PlayVideoActivity;
 import com.ckz.baisi.activity.ShowCommentImage;
@@ -129,7 +128,8 @@ public class UserCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             case VOICE:
                 VoiceHolder voiceHolder = (VoiceHolder) holder;
                 setCommandView(voiceHolder.userIcon,voiceHolder.userName,voiceHolder.passTime,voiceHolder.ding,voiceHolder.cai,voiceHolder.conentText,voiceHolder.yuanWen,position);
-
+                setPlayer(voiceHolder,position);
+                break;
         }
     }
 

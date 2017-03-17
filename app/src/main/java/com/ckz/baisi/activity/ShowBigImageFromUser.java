@@ -34,6 +34,7 @@ import com.ckz.baisi.adapter.NormalCommentAdapter;
 import com.ckz.baisi.appliction.MyAppliction;
 import com.ckz.baisi.bean.BaisiData;
 import com.ckz.baisi.bean.CommentBean;
+import com.ckz.baisi.bean.UserCommentBean;
 import com.ckz.baisi.request.GsonRequest;
 import com.ckz.baisi.unitls.GetGlest;
 import com.ckz.baisi.unitls.LogUtils;
@@ -59,16 +60,19 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
-
+/**
+ * Created by CKZ on 2017/3/17.
+ *ShowBigImageFromUser
+ */
 @RuntimePermissions
-public class ShowBigImageActivity extends AppCompatActivity implements View.OnClickListener {
+public class ShowBigImageFromUser extends AppCompatActivity implements View.OnClickListener {
     private int max = GetGlest.getGLESTextureLimit();
     private String url;
     private int page = 0;
     private SDFileHelper helper;
     //
     private Context context;
-    private BaisiData.ListBean listBean;
+    private UserCommentBean.ListBean.TopicBean listBean;
     //view控件
     private ImageView back;
     private TwinklingRefreshLayout refreshLayout;
@@ -83,7 +87,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
     //headView,显示大图
     private View view;
     //通用控件
-   // private TextView commenTriangle;
+    // private TextView commenTriangle;
     private MyListView hotList;
     private HotCommentAdapter hotAdapter;
     private LinearLayout commentGroup;
@@ -98,7 +102,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_big_image);
-        context = ShowBigImageActivity.this;
+        context = ShowBigImageFromUser.this;
         getImageData();
         initView();
         setLoadMore();
@@ -109,6 +113,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
     private void setHeaderView(){
         if (listBean.getType().equals("image")){
             view = LayoutInflater.from(context).inflate(R.layout.big_image,normalList,false);
+
             setCommandView(view);
             bigImage = (SubsamplingScaleImageView) view.findViewById(R.id.show_big_image);
             bigImage.setMinimumHeight(ScreenUtils.getScreenHeight(context));
@@ -157,7 +162,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
     }
     //设置通用控件
     private void setCommandView(View view){
-       // commenTriangle = (TextView) view.findViewById(R.id.big_comment_triangle);
+        // commenTriangle = (TextView) view.findViewById(R.id.big_comment_triangle);
         hotList = (MyListView) view.findViewById(R.id.hot_comment_list);
         commentGroup = (LinearLayout) view.findViewById(R.id.big_comment_group);
         hotCommentView = (LinearLayout) view.findViewById(R.id.hot_comment_area);
@@ -190,7 +195,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
 
     //获取图片网站，类型，id
     private void getImageData(){
-        listBean = (BaisiData.ListBean) getIntent().getBundleExtra("image").getSerializable("imageData");
+        listBean = (UserCommentBean.ListBean.TopicBean) getIntent().getBundleExtra("image").getSerializable("imageData");
         url = "http://c.api.budejie.com/topic/comment_list/"+listBean.getId()+"/0/budejie-android-6.6.2/0-20.json?";
         normalBeenList = new ArrayList<>();
         hotBeanList = new ArrayList<>();
@@ -204,7 +209,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
                 refreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                       getData();
+                        getData();
                         refreshLayout.finishLoadmore();
                     }
                 },700);
@@ -273,10 +278,10 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.show_big_save:
                 //保存图片
-                ShowBigImageActivityPermissionsDispatcher.saveImagePermissionWithCheck(this);
+                ShowBigImageFromUserPermissionsDispatcher.needPermissionWithCheck(this);
 
                 if (listBean.getType().equals("image")){
-                   saveImage(listBean.getImage().getBig().get(0));
+                    saveImage(listBean.getImage().getBig().get(0));
                 }else {
                     saveGif(listBean.getGif().getImages().get(0));
                 }
@@ -320,14 +325,15 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
+
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void saveImagePermission() {
+    void needPermission() {
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        ShowBigImageActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+        ShowBigImageFromUserPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})

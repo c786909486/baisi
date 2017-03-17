@@ -9,5 +9,9 @@
     <string name="send_link">发链接</string>
     <string name="back">返回</string>
     <string name="content">正文内容</string>
+    <string name="follow">关注</string>
+    <string name="follow_text">快快登陆吧，关注百思最in牛人\n好友动态让你过吧瘾儿，噢耶！</string>
+    <string name="login_text">登陆</string>
+    <string name="register_text">注册</string>
 
 </resources>

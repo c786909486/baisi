@@ -29,6 +29,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.ckz.baisi.R;
 import com.ckz.baisi.activity.PlayVideoActivity;
 import com.ckz.baisi.activity.ShowCommentImage;
+import com.ckz.baisi.activity.UserDetilsActivity;
 import com.ckz.baisi.bean.CommentBean;
 import com.ckz.baisi.unitls.ACache;
 import com.ckz.baisi.unitls.MyIntegerUtils;
@@ -277,6 +278,11 @@ public class NormalCommentAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context,"弹出访问用户窗口",Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(context,UserDetilsActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("userId",String.valueOf(mData.get(position).getUser().getId()));
+                intent1.putExtra("Id",bundle1);
+                context.startActivity(intent1);
             }
         });
         //用户头像

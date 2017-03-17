@@ -1,12 +1,19 @@
 package com.ckz.baisi.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,17 +34,17 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.ckz.baisi.R;
 import com.ckz.baisi.adapter.HotCommentAdapter;
+import com.ckz.baisi.adapter.MyContentAdapter;
 import com.ckz.baisi.adapter.NormalCommentAdapter;
 import com.ckz.baisi.appliction.MyAppliction;
 import com.ckz.baisi.bean.BaisiData;
 import com.ckz.baisi.bean.CommentBean;
-import com.ckz.baisi.bean.UserCommentBean;
 import com.ckz.baisi.request.GsonRequest;
 import com.ckz.baisi.unitls.CalLinesUtils;
-import com.ckz.baisi.unitls.ListViewUtil;
 import com.ckz.baisi.unitls.LogUtils;
 import com.ckz.baisi.unitls.MyIntegerUtils;
 import com.ckz.baisi.unitls.ScreenUtils;
+import com.ckz.baisi.unitls.TextUtils;
 import com.ckz.baisi.view.BudejieLoadMore;
 import com.ckz.baisi.view.BudejieRefresh;
 import com.ckz.baisi.view.CircleImageView;
@@ -52,12 +59,12 @@ import java.util.TimerTask;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
-public class CommentFromUser extends AppCompatActivity implements View.OnClickListener{
+public class CommentFromRepost extends AppCompatActivity implements View.OnClickListener{
     private static final int QUANWEN = 0;
     private static final int SHOUQI = 1;
     private int type = QUANWEN;
     private int index = 1;
-    private UserCommentBean.ListBean.TopicBean listBean;
+    private BaisiData.ListBean.RepostBean listBean;
     private TextView commentLeft;
     private ImageView commentRight;
     private ListView newCommentList;
@@ -68,7 +75,7 @@ public class CommentFromUser extends AppCompatActivity implements View.OnClickLi
     private List<CommentBean.NormalBean.ListBeanX> normalBeenList;
     private NormalCommentAdapter nomalAdapter;
     private HotCommentAdapter hotAdapter;
-    private Context context = CommentFromUser.this;
+    private Context context = CommentFromRepost.this;
     private Timer timer = new Timer();
     private BudejieRefresh headView;
     private BudejieLoadMore loadView;
@@ -92,6 +99,10 @@ public class CommentFromUser extends AppCompatActivity implements View.OnClickLi
     //image
     private ImageView show_image;
     private LinearLayout click_large;
+    //reponst
+    private TextView repostName;
+    private ImageView repostImage;
+    private JCVideoCustom repostVideo;
 
     private Handler handler = new Handler(){
         @Override
@@ -139,7 +150,7 @@ public class CommentFromUser extends AppCompatActivity implements View.OnClickLi
     }
     //初始化数据
     private void initData(){
-        listBean = (UserCommentBean.ListBean.TopicBean) getIntent().getBundleExtra("Id").getSerializable("Data");
+        listBean = (BaisiData.ListBean.RepostBean) getIntent().getBundleExtra("Id").getSerializable("Data");
         url = "http://c.api.budejie.com/topic/comment_list/"+listBean.getId()+"/0/budejie-android-6.6.2/0-20.json?";
         LogUtils.d("URL",url);
         hotBeanList = new ArrayList<>();
@@ -201,8 +212,81 @@ public class CommentFromUser extends AppCompatActivity implements View.OnClickLi
             contentView = LayoutInflater.from(context).inflate(R.layout.comment_duanzi_layout,null);
             setCommendView(contentView);
             setDuanzi(contentView);
+        }else if (listBean.getType().equals("repost")){
+            contentView = LayoutInflater.from(context).inflate(R.layout.comment_repost_layout,null);
+            setCommendView(contentView);
+            setRepostData(contentView);
         }
     }
+    /**
+     * 设置转载信息
+     */
+    @SuppressLint("SetTextI18n")
+    private void setRepostData(View view){
+        repostImage = (ImageView) view.findViewById(R.id.repost_image);
+        repostName = (TextView) view.findViewById(R.id.repost_name);
+        repostVideo = (JCVideoCustom) view.findViewById(R.id.repost_video);
+        if (listBean.getType()!=null){
+            String name = listBean.getU().getName();
+            String content = listBean.getText();
+            SpannableString string = new SpannableString(TextUtils.ToSBC(name+":"+content));
+            MyClickableSpan span = new MyClickableSpan();
+            string.setSpan(span,0,name.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            repostName.setMovementMethod(LinkMovementMethod.getInstance());
+            repostName.setHighlightColor(Color.parseColor("#ffffff"));
+            repostName.setText(string);
+            repostImage.setOnClickListener(this);
+            if (listBean.getType().equals("gif")){
+                hideView();
+                repostImage.setVisibility(View.VISIBLE);
+                Glide.with(context).load(listBean.getGif().getImages().get(0))
+                        .asGif().placeholder(R.mipmap.bg_activities_item_end_transparent)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE).dontAnimate().into(repostImage);
+            }else if (listBean.getType().equals("image")){
+                hideView();
+                repostImage.setVisibility(View.VISIBLE);
+                if (listBean.getImage().getHeight()>ScreenUtils.getScreenHeight(context)){
+                    Glide.with(context).load(listBean.getImage().getBig().get(0)).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate().into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                            Bitmap bitmap1 = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),600);
+                            repostImage.setImageBitmap(bitmap1);
+                        }
+                    });
+                }else {
+                    Glide.with(context).load(listBean.getImage().getBig().get(0)).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate().into(repostImage);
+                }
+            }else {
+                hideView();
+                repostVideo.setVisibility(View.VISIBLE);
+                repostVideo.play_counts.setText(listBean.getVideo().getPlaycount()+"播放");
+                repostVideo.total_duration.setText(MyIntegerUtils.ss2mm(listBean.getVideo().getDuration()));
+                repostVideo.setUp(listBean.getVideo().getVideo().get(0),JCVideoPlayer.SCREEN_LAYOUT_LIST,"");
+                Glide.with(context).load(listBean.getVideo().getThumbnail().get(0))
+                        .placeholder(R.mipmap.bg_activities_item_end_transparent).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .dontAnimate().into(repostVideo.thumbImageView);
+            }
+        }else {
+            repostName.setText("抱歉，原帖已经被作者删除");
+            int color;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                color = context.getResources().getColor(R.color.userName,null);
+            }else {
+                color = context.getResources().getColor(R.color.userName);
+            }
+            repostName.setTextColor(color);
+            hideView();
+        }
+
+    }
+    //隐藏转载布局
+    private void hideView(){
+        repostVideo.setVisibility(View.GONE);
+        repostImage.setVisibility(View.GONE);
+    }
+
     //设置image
     private void setImage(View view){
         show_image = (ImageView) view.findViewById(R.id.show_image);
@@ -367,6 +451,7 @@ public class CommentFromUser extends AppCompatActivity implements View.OnClickLi
                     refreshLayout.setEnableLoadmore(true);
                 }else {
                     refreshLayout.setEnableLoadmore(false);
+                    refreshLayout.setOverScrollTopShow(false);
                     Toast.makeText(context,"没有更多数据了",Toast.LENGTH_SHORT).show();
                 }
                 index++;
@@ -408,10 +493,13 @@ public class CommentFromUser extends AppCompatActivity implements View.OnClickLi
                         refreshLayout.setEnableLoadmore(true);
                     }else {
                         refreshLayout.setEnableLoadmore(false);
+                        refreshLayout.setOverScrollTopShow(false);
                     }
                 }else {
                     dataView.setVisibility(View.GONE);
                     emptyView.setVisibility(View.VISIBLE);
+                    refreshLayout.setEnableLoadmore(false);
+                    refreshLayout.setOverScrollTopShow(false);
                 }
             }
         }, new Response.ErrorListener() {
@@ -441,7 +529,11 @@ public class CommentFromUser extends AppCompatActivity implements View.OnClickLi
             //userLayout
             case R.id.user_layout:
                 //弹出访问用户窗口
-
+                Intent intent1 = new Intent(context,UserDetilsActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("userId",listBean.getU().getUid());
+                intent1.putExtra("Id",bundle1);
+                startActivity(intent1);
                 break;
             //comment_ding_layout
             case R.id.comment_ding_button:
@@ -482,12 +574,37 @@ public class CommentFromUser extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.show_gif:
             case R.id.show_image:
-                Intent intent = new Intent(context, ShowBigImageFromUser.class);
+                Intent intent = new Intent(context, ShowBigFromRepost.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("imageData",listBean);
                 intent.putExtra("image",bundle);
                 startActivity(intent);
                 break;
+            case R.id.repost_image:
+                Intent intent2 = new Intent(context, ShowBigFromRepost.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putSerializable("imageData",listBean);
+                intent2.putExtra("image",bundle2);
+                startActivity(intent2);
+                break;
+        }
+    }
+    class MyClickableSpan extends ClickableSpan {
+        private int position;
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+            ds.setColor(Color.parseColor("#4574AA"));
+
+        }
+        @Override
+        public void onClick(View widget) {
+            Intent intent = new Intent(context, UserDetilsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("userId",listBean.getU().getUid());
+            intent.putExtra("Id",bundle);
+            context.startActivity(intent);
         }
     }
 }

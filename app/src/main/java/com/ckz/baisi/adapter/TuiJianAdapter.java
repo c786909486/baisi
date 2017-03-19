@@ -61,7 +61,7 @@ public class TuiJianAdapter extends BaseAdapter {
         Glide.with(context).load(mData.get(position).getImage_list()).diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .dontAnimate().into(holder.tuijianIcon);
         holder.tuijianName.setText(mData.get(position).getTheme_name());
-        holder.dingyueCount.setText(MyIntegerUtils.int2k(mData.get(position).getSub_number()));
+        holder.dingyueCount.setText(MyIntegerUtils.int2W(mData.get(position).getSub_number()));
         holder.tieziCount.setText(mData.get(position).getPost_num()+"");
         return convertView;
     }

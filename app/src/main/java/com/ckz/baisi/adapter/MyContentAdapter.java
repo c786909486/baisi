@@ -285,8 +285,14 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.show_video.play_counts.setText(String.valueOf(mData.get(position).getVideo().getPlaycount())+"播放");
             holder.show_video.total_duration.setText(MyIntegerUtils.ss2mm(mData.get(position).getVideo().getDuration()));
             holder.show_video.setUp(mData.get(position).getVideo().getVideo().get(1), JCVideoPlayer.SCREEN_LAYOUT_LIST,"");
-            holder.show_video.widthRatio = mData.get(position).getVideo().getWidth();
-            holder.show_video.heightRatio = mData.get(position).getVideo().getHeight();
+            if (mData.get(position).getVideo().getHeight()/mData.get(position).getVideo().getWidth()<1){
+                holder.show_video.widthRatio = mData.get(position).getVideo().getWidth();
+                holder.show_video.heightRatio = mData.get(position).getVideo().getHeight();
+            }else {
+                holder.show_video.widthRatio = 1;
+                holder.show_video.heightRatio = 1;
+            }
+
             Glide.with(context).load(mData.get(position).getVideo().getThumbnail().get(0))
                     .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate()
                     .override(mData.get(position).getVideo().getWidth(),mData.get(position).getVideo().getHeight())

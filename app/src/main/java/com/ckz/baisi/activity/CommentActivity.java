@@ -333,8 +333,14 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         JCVideoPlayer.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
         jcVideoCustom.play_counts.setText(String.valueOf(listBean.getVideo().getPlaycount())+"播放");
         jcVideoCustom.total_duration.setText(MyIntegerUtils.ss2mm(listBean.getVideo().getDuration()));
-        jcVideoCustom.widthRatio = listBean.getVideo().getWidth();
-        jcVideoCustom.heightRatio = listBean.getVideo().getHeight();
+        if (listBean.getVideo().getHeight()/listBean.getVideo().getWidth()<1){
+            jcVideoCustom.widthRatio = listBean.getVideo().getWidth();
+            jcVideoCustom.heightRatio = listBean.getVideo().getHeight();
+        }else {
+            jcVideoCustom.widthRatio = 1;
+            jcVideoCustom.heightRatio = 1;
+        }
+
         jcVideoCustom.setUp(listBean.getVideo().getVideo().get(0),JCVideoPlayer.SCREEN_LAYOUT_NORMAL,"");
         Glide.with(context).load(listBean.getVideo().getThumbnail().get(0))
                 .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate()

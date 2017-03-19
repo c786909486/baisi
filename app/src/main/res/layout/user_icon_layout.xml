@@ -57,7 +57,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="正文内容"
-        android:textSize="18sp"
+        android:textSize="@dimen/list_textSize"
+        android:lineSpacingExtra="5dp"
         android:maxLines="7"
-        android:textAppearance="?android:attr/textAppearance"/>
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        />
 </LinearLayout>

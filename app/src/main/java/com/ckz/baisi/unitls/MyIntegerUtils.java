@@ -21,14 +21,25 @@ public class MyIntegerUtils {
         return time;
     }
 
-    public static String int2k(String index){
+    public static String int2k(int index){
         String count = "";
-        if (Integer.valueOf(index)<1000){
-            count = index;
+        if (index<1000){
+            count = index+"";
         }else {
-            float i = Integer.valueOf(index)/1000;
-            DecimalFormat df = new DecimalFormat("0.00");//格式化小数，不足的补0
-            count = df.format(i)+"K";
+            double i = (index/1000.0);
+
+            count = String.format("%.2f", i)+"K";
+        }
+        return count;
+    }
+    public static String int2W(int index){
+        String count = "";
+        if (index<1000){
+            count = index+"";
+        }else {
+            double i = (index/10000.0);
+
+            count = String.format("%.1f", i)+"万人订阅  |  总帖数";
         }
         return count;
     }

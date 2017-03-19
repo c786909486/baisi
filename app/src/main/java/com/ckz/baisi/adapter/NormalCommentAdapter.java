@@ -306,7 +306,7 @@ public class NormalCommentAdapter extends BaseAdapter {
 
         setClick(dingCount,caiCount,position);
         //用户关注数
-        userLikeCount.setText(MyIntegerUtils.int2k(mData.get(position).getUser().getTotal_cmt_like_count()));
+        userLikeCount.setText(MyIntegerUtils.int2k(Integer.valueOf(mData.get(position).getUser().getTotal_cmt_like_count())));
         int count = Integer.valueOf(mData.get(position).getUser().getTotal_cmt_like_count());
         if (count<1000){
             userLikeCount.setBackgroundResource(R.drawable.bg_gz);
@@ -393,7 +393,6 @@ public class NormalCommentAdapter extends BaseAdapter {
 
     //播放功能
     private void setPlayer(final VoiceHolder holder, final int position){
-        holder.voiceDuration.setText(String.valueOf(mData.get(position).getAudio().getDuration())+"''");
         if (mPlayer==null){
             animationDrawable = (AnimationDrawable) holder.voice_play_ani.getDrawable();
             hideVoiceViews(holder);
@@ -440,14 +439,17 @@ public class NormalCommentAdapter extends BaseAdapter {
                             animationDrawable.stop();
                             holder.voice_play_icon.setVisibility(View.VISIBLE);
                             currentState = CURRENT_STATE_RELEASE;
+                            if (!mPlayer.isPlaying()){
+                                currentState = CURRENT_STATE_RELEASE;
+                                hideVoiceViews(holder);
+                                holder.voice_play_icon.setVisibility(View.VISIBLE);
+                            }
                         }
                     });
 
                     currentState = CURRENT_STATE_PLAYING;
                 }else {
-                    if (!mPlayer.isPlaying()){
-                        currentState = CURRENT_STATE_RELEASE;
-                    }
+
                     mPlayer.reset();
                     mPlayer.release();
                     hideVoiceViews(holder);
@@ -458,6 +460,7 @@ public class NormalCommentAdapter extends BaseAdapter {
             }
         });
     }
+
     private void hideVoiceViews(VoiceHolder holder){
         holder.loading.setVisibility(View.GONE);
         holder.voice_play_icon.setVisibility(View.GONE);

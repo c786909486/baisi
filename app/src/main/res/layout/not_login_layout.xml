@@ -22,7 +22,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_marginTop="150dp"
+        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -34,7 +34,7 @@
             android:textColor="@color/mostTextColor"
             android:text="@string/follow_text"
             android:textSize="@dimen/follow_txt_size"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="50dp"
             android:lineSpacingExtra="10dp"
             />
         <ImageView
@@ -43,12 +43,13 @@
             android:src="@mipmap/follow_prompt_login_icon"
             />
         <LinearLayout
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
             <TextView
+                android:id="@+id/login_btn"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -58,6 +59,7 @@
                 android:textSize="@dimen/follow_btn_txt_size"
                 android:background="@drawable/follow_login_btn_bg"/>
             <TextView
+                android:id="@+id/register_btn"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:padding="5dp"

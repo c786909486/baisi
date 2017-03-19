@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -379,6 +380,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
          * 判断图片高度，显示图片
          */
         MyClickListener listener = new MyClickListener(position);
+
         holder.image_txt.setText(mData.get(position).getText());
         holder.image_txt.setOnClickListener(listener);
         if (mData.get(position).getImage().getHeight()>= GetGlest.getGLESTextureLimit()){
@@ -516,7 +518,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             user_layout = (LinearLayout) itemView.findViewById(R.id.user_layout);
             text_content = (TextView) itemView.findViewById(R.id.text_content);
             //
-           repost_image = (ImageView) itemView.findViewById(R.id.repost_image);
+            repost_image = (ImageView) itemView.findViewById(R.id.repost_image);
             repost_name = (TextView) itemView.findViewById(R.id.repost_name);
             repost_video = (JCVideoCustom) itemView.findViewById(R.id.repost_video);
             repost_group = (RelativeLayout) itemView.findViewById(R.id.repost_group);
@@ -581,6 +583,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView ding_btn,cai_btn,forward_btn,commend_btn;
         RecyclerView hot_commend;
         ImageView list_top_icon;
+        @SuppressLint("NewApi")
         public ImageViewHolder(View itemView) {
             super(itemView);
             user_icon = (CircleImageView) itemView.findViewById(R.id.image_user_icon);
@@ -589,6 +592,8 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             user_layout = (LinearLayout) itemView.findViewById(R.id.user_layout);
             //
             image_txt = (TextView) itemView.findViewById(R.id.text_content);
+            Typeface type= Typeface.createFromAsset(context.getAssets(),"fronts/iconfont.ttf");
+            image_txt.setTypeface(type);
             image_show = (ImageView) itemView.findViewById(R.id.show_image);
             click_large = (LinearLayout) itemView.findViewById(R.id.click_large);
             //

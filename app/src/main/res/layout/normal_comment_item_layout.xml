@@ -50,8 +50,9 @@
              android:id="@+id/txt_comment"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:textSize="18sp"
+             android:textSize="@dimen/list_textSize"
              android:text="1231231"
+             android:lineSpacingExtra="@dimen/lineSpacingExtra"
              android:paddingBottom="10dp"
              android:textAppearance="?android:attr/textAppearance"/>
       </LinearLayout>

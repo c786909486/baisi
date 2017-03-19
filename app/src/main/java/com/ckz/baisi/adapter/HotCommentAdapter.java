@@ -287,7 +287,7 @@ public class HotCommentAdapter extends BaseAdapter {
 
         setClick(dingCount,caiCount,position);
         //用户关注数
-        userLikeCount.setText(MyIntegerUtils.int2k(mData.get(position).getUser().getTotal_cmt_like_count()));
+        userLikeCount.setText(MyIntegerUtils.int2k(Integer.valueOf(mData.get(position).getUser().getTotal_cmt_like_count())));
         int count = Integer.valueOf(mData.get(position).getUser().getTotal_cmt_like_count());
         if (count<1000){
             userLikeCount.setBackgroundResource(R.drawable.bg_gz);

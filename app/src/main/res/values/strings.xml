@@ -13,5 +13,16 @@
     <string name="follow_text">快快登陆吧，关注百思最in牛人\n好友动态让你过吧瘾儿，噢耶！</string>
     <string name="login_text">登陆</string>
     <string name="register_text">注册</string>
+    <string name="waning">注意</string>
+    <string name="login_waning">此APP为个人练习版，请前往官网下载正版</string>
+    <string name="trues">确定</string>
+    <string name="my">我的</string>
+    <string name="login_register">登陆/注册</string>
+    <string name="shentie">审帖</string>
+    <string name="shoucang">我的收藏</string>
+    <string name="search">搜索</string>
+    <string name="feed">意见反馈</string>
+    <string name="myVideo">我的视频</string>
+    <string name="tuijian_dingyur">推荐订阅</string>
 
 </resources>

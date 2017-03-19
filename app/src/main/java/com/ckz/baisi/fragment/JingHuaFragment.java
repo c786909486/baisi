@@ -186,6 +186,7 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
               break;
           case R.id.top_games_btn:
               Intent intent = new Intent(getContext(), GongxianActivity.class);
+              intent.putExtra("url","http://m.budejie.com/user/credit.html?from=singlemessage&isappinstalled=0");
               startActivity(intent);
               break;
       }

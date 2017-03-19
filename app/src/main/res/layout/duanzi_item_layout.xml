@@ -16,7 +16,7 @@
         android:text="全文"
         android:focusable="false"
         android:textSize="17sp"
-        android:textColor="#669fff"
+        android:textColor="@color/userName"
         android:textAppearance="?android:attr/textAppearance"/>
     </LinearLayout>
     <include layout="@layout/ding_layout"/>

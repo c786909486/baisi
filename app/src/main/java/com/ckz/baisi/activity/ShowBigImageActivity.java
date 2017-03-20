@@ -94,6 +94,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
     private PhotoView bigGif;
     private PhotoViewAttacher mAttacher;
 
+    private View bottomView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,6 +175,7 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
         save = (TextView) findViewById(R.id.show_big_save);
         share = (TextView) findViewById(R.id.show_big_share);
         comment = (TextView) findViewById(R.id.show_big_comment);
+        bottomView = LayoutInflater.from(context).inflate(R.layout.bottom_view,null);
         back.setOnClickListener(this);
         save.setOnClickListener(this);
         share.setOnClickListener(this);
@@ -247,11 +249,15 @@ public class ShowBigImageActivity extends AppCompatActivity implements View.OnCl
                         refreshLayout.setEnableLoadmore(true);
                     }else {
                         refreshLayout.setEnableLoadmore(false);
+                        refreshLayout.setOverScrollTopShow(false);
+                        normalList.addFooterView(bottomView);
                         Toast.makeText(context,"没有更多数据了",Toast.LENGTH_SHORT).show();
                     }
                 }else {
                     commentGroup.setVisibility(View.GONE);
 //                    commenTriangle.setVisibility(View.GONE);
+                    refreshLayout.setEnableLoadmore(false);
+                    refreshLayout.setOverScrollTopShow(false);
                 }
                 page++;
                 LogUtils.d("DataSize",url);

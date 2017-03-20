@@ -9,14 +9,14 @@
         android:orientation="horizontal"
         >
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:id="@+id/tuijian_icon"
             android:src="@mipmap/bg"
             android:layout_gravity="center_vertical"/>
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="36dp"
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
@@ -26,9 +26,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tuijian_name"
                 android:textColor="@color/black"
-                android:textSize="@dimen/list_textSize"
+                android:textSize="@dimen/tuijian_list_size"
                 android:text="@string/content"
-                android:padding="3dp"/>
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,15 +37,15 @@
                     android:id="@+id/dingyue_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:textSize="@dimen/nameWithTime"
+
+                    android:textSize="@dimen/tuijian_count_size"
                     android:text="@string/content"/>
                 <TextView
                     android:id="@+id/tiezi_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
-                    android:textSize="@dimen/nameWithTime"
+                    android:textSize="@dimen/tuijian_count_size"
                     android:textColor="@color/baisiColor"
                     android:text="1231231"/>
             </LinearLayout>
@@ -60,6 +60,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="+关注"
+            android:textSize="@dimen/tuijian_list_size"
             android:textColor="@color/baisiColor"
             android:background="@drawable/focuse_bg"/>
     </LinearLayout>

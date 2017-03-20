@@ -72,12 +72,12 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="160dp"
                 android:visibility="gone"/>
             <LinearLayout
                 android:id="@+id/no_net_group"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="150dp"
                 android:orientation="horizontal"
                 >
                <TextView
@@ -120,6 +120,7 @@
                 android:layout_below="@id/view_pager"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
+                android:padding="5dp"
                 android:orientation="horizontal">
             </LinearLayout>
          </RelativeLayout>
@@ -131,9 +132,12 @@
          <TextView
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:padding="10dp"
+             android:paddingBottom="5dp"
+             android:paddingTop="5dp"
+             android:paddingLeft="10dp"
+             android:paddingRight="10dp"
              android:background="@color/white"
-             android:textSize="@dimen/list_textSize"
+             android:textSize="@dimen/tuijian_title"
              android:textColor="@color/mostTextColor"
              android:text="@string/tuijian_dingyur"/>
          <com.ckz.baisi.view.MyListView

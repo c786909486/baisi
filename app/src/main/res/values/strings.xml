@@ -24,5 +24,7 @@
     <string name="feed">意见反馈</string>
     <string name="myVideo">我的视频</string>
     <string name="tuijian_dingyur">推荐订阅</string>
+    <string name="chuanyue">穿越</string>
+    <string name="click_to_chuanyue">点击再次穿越</string>
 
 </resources>

@@ -39,5 +39,16 @@
         <item name="android:textSize">11sp</item>
         <item name="android:drawablePadding">5dp</item>
     </style>
+    <style name="back_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">返回</item>
+        <item name="android:textSize">@dimen/backSize</item>
+        <item name="android:textColor">@drawable/title_txt_press</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:drawableLeft">@drawable/collect_left_button_press</item>
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+
 
 </resources>

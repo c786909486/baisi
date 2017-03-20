@@ -248,18 +248,7 @@ public class QuanbuContent extends Fragment {
     }
     //获取data数据
     private void getCacheData(){
-//        //精选
-//        if (content.equals(jingXuanUrl[0]))   baisi = (BaisiData) cache.getAsObject("JXTJD");
-//        if (content.equals(jingXuanUrl[1]))   baisi = (BaisiData) cache.getAsObject("JXSPD");
-//        if (content.equals(jingXuanUrl[2]))   baisi = (BaisiData) cache.getAsObject("JXTPD");
-//        if (content.equals(jingXuanUrl[3]))   baisi = (BaisiData) cache.getAsObject("JXDZD");
-//        if (content.equals(jingXuanUrl[4]))   baisi = (BaisiData) cache.getAsObject("JXYCD");
-//        if (content.equals(jingXuanUrl[5]))   baisi = (BaisiData) cache.getAsObject("JXWHD");
-//        if (content.equals(jingXuanUrl[6]))   baisi = (BaisiData) cache.getAsObject("JXPHD");
-//        if (content.equals(jingXuanUrl[7]))   baisi = (BaisiData) cache.getAsObject("JXSHD");
-//        if (content.equals(jingXuanUrl[8]))   baisi = (BaisiData) cache.getAsObject("JXMND");
-//        if (content.equals(jingXuanUrl[9]))   baisi = (BaisiData) cache.getAsObject("JXLZSD");
-//        if (content.equals(jingXuanUrl[10]))   baisi = (BaisiData) cache.getAsObject("JXYXD");
+
         //最新
         if (content.equals(zuiXinUrl[0]))   baisi = (BaisiData) cache.getAsObject("ZXQBD");
         if (content.equals(zuiXinUrl[1]))   baisi = (BaisiData) cache.getAsObject("ZXSPD");
@@ -273,18 +262,7 @@ public class QuanbuContent extends Fragment {
     }
     //保存加载更多的页数
     private void savePageCount(){
-//        //精选
-//        if (content.equals(jingXuanUrl[0]))  cache.put("JXTJP",pageCount,ACache.TIME_DAY);
-//        if (content.equals(jingXuanUrl[1]))  cache.put("JXSPP",pageCount,ACache.TIME_DAY);
-//        if (content.equals(jingXuanUrl[2]))  cache.put("JXTPP",pageCount,ACache.TIME_DAY);
-//        if (content.equals(jingXuanUrl[3]))  cache.put("JXDZP",pageCount,ACache.TIME_DAY);
-//        if (content.equals(jingXuanUrl[4]))  cache.put("JXYCP",pageCount,ACache.TIME_DAY);
-//        if (content.equals(jingXuanUrl[5]))  cache.put("JXWHP",pageCount,ACache.TIME_DAY);
-//        if (content.equals(jingXuanUrl[6]))  cache.put("JXPHP",pageCount,ACache.TIME_DAY);
-//        if (content.equals(jingXuanUrl[7]))  cache.put("JXSHP",pageCount,ACache.TIME_DAY);
-//        if (content.equals(jingXuanUrl[8]))  cache.put("JXMNP",pageCount,ACache.TIME_DAY);
-//        if (content.equals(jingXuanUrl[9]))  cache.put("JXLZSP",pageCount,ACache.TIME_DAY);
-//        if (content.equals(jingXuanUrl[10]))  cache.put("JXYXP",pageCount,ACache.TIME_DAY);
+
         //最新
         if (content.equals(zuiXinUrl[0]))   cache.put("ZXQBP",pageCount,ACache.TIME_DAY);
         if (content.equals(zuiXinUrl[1]))   cache.put("ZXSPP",pageCount,ACache.TIME_DAY);
@@ -299,17 +277,7 @@ public class QuanbuContent extends Fragment {
     }
     //获取加载更多页数
     private void getPageCount(){
-//        if (content.equals(jingXuanUrl[0]))   pageCount = (int) cache.getAsObject("JXTJP");
-//        if (content.equals(jingXuanUrl[1]))   pageCount = (int) cache.getAsObject("JXSPP");
-//        if (content.equals(jingXuanUrl[2]))   pageCount = (int) cache.getAsObject("JXTPP");
-//        if (content.equals(jingXuanUrl[3]))   pageCount = (int) cache.getAsObject("JXDZP");
-//        if (content.equals(jingXuanUrl[4]))   pageCount = (int) cache.getAsObject("JXYCP");
-//        if (content.equals(jingXuanUrl[5]))   pageCount = (int) cache.getAsObject("JXWHP");
-//        if (content.equals(jingXuanUrl[6]))   pageCount = (int) cache.getAsObject("JXPHP");
-//        if (content.equals(jingXuanUrl[7]))   pageCount = (int) cache.getAsObject("JXSHP");
-//        if (content.equals(jingXuanUrl[8]))   pageCount = (int) cache.getAsObject("JXMNP");
-//        if (content.equals(jingXuanUrl[9]))   pageCount = (int) cache.getAsObject("JXLZSP");
-//        if (content.equals(jingXuanUrl[10]))   pageCount = (int) cache.getAsObject("JXYXP");
+
         //最新
         if (content.equals(zuiXinUrl[0]))   pageCount = (int) cache.getAsObject("ZXQBP");
         if (content.equals(zuiXinUrl[1]))   pageCount = (int) cache.getAsObject("ZXSPP");

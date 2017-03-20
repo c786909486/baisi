@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ckz.baisi.R;
+import com.ckz.baisi.activity.ChuanyueActivity;
 import com.ckz.baisi.activity.GongxianActivity;
 import com.ckz.baisi.adapter.MyPagerAdapter;
 import com.ckz.baisi.fragment.jinghuaContent.TuijianFragment;
@@ -43,9 +44,9 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
     public static Animation animator = null;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private MyPagerAdapter adapter;
     private ImageButton game_btn,suiji_btn;
     public static TextView showToast;
+    private MyPagerAdapter adapter;
     private List<String> titleList = new ArrayList<>(); //页卡标题集合
     private ArrayList<Fragment> viewList = new ArrayList<>(); //页卡视图集合
     private int jinghua_position = 0;
@@ -115,8 +116,7 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(jinghua_position);
-       //Log.d("Tag",viewList.get(0).getContent());
-        viewPager.setCurrentItem(0);
+
 
         return view;
     }
@@ -188,6 +188,10 @@ public class JingHuaFragment extends Fragment implements View.OnClickListener{
               Intent intent = new Intent(getContext(), GongxianActivity.class);
               intent.putExtra("url","http://m.budejie.com/user/credit.html?from=singlemessage&isappinstalled=0");
               startActivity(intent);
+              break;
+          case R.id.top_suiji_btn:
+              Intent intent1 = new Intent(getContext(), ChuanyueActivity.class);
+              getContext().startActivity(intent1);
               break;
       }
     }

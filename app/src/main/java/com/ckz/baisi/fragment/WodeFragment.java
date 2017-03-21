@@ -186,6 +186,7 @@ public class WodeFragment extends Fragment implements View.OnClickListener{
                 noNetGroup.setVisibility(View.GONE);
                 viewPager.setVisibility(View.VISIBLE);
                 getGrideData();
+                adapter.notifyDataSetChanged();
             }else {
                 noNetGroup.setVisibility(View.VISIBLE);
                 viewPager.setVisibility(View.GONE);
@@ -205,7 +206,6 @@ public class WodeFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onResponse(GrideBean grideBean) {
                 List<GrideBean.SquareListBean> listBeen = grideBean.getSquare_list();
-                mDatas.removeAll(listBeen);
                 mDatas.addAll(listBeen);
                 adapter.notifyDataSetChanged();
                 mACache.put("GrideData",grideBean);

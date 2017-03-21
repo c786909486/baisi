@@ -29,10 +29,21 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="返回"
+            android:text="@string/back"
             android:textColor="@drawable/title_txt_press"
-            android:textSize="20sp"
+            android:textSize="@dimen/backSize"
             android:drawableLeft="@drawable/gong_xian_press"/>
+        <TextView
+            android:id="@+id/top_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/gongxian_back"
+            android:padding="10dp"
+            android:textColor="@drawable/title_txt_press"
+            android:textSize="@dimen/backSize"
+            android:text="@string/close"
+            android:visibility="gone"/>
     </RelativeLayout>
     <ProgressBar
         android:id="@+id/wb_progressBar"

@@ -1,6 +1,7 @@
 package com.ckz.baisi.activity;
 
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import com.ckz.baisi.R;
 import java.io.File;
 
 public class GongxianActivity extends AppCompatActivity {
-    private TextView title_back,title_name;
+    private TextView title_back,title_name,close;
     private WebView displayWebview;
     private ProgressBar pb;
     private String url;
@@ -31,6 +32,7 @@ public class GongxianActivity extends AppCompatActivity {
         title_name = (TextView) findViewById(R.id.credit_title_name);
         displayWebview = (WebView) findViewById(R.id.gongxian_web);
         pb = (ProgressBar) findViewById(R.id.wb_progressBar);
+        close = (TextView) findViewById(R.id.top_close);
         pb.setMax(100);
         title_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +53,12 @@ public class GongxianActivity extends AppCompatActivity {
         displayWebview.getSettings().setAppCacheEnabled(true);//是否使用缓存
         displayWebview.getSettings().setDomStorageEnabled(true);//DOM Storage
         displayWebview.loadUrl(url);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         displayWebview.setWebViewClient(new WebViewClient(){
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -58,10 +66,16 @@ public class GongxianActivity extends AppCompatActivity {
                 view.loadUrl(request.getUrl().toString());
                 return super.shouldOverrideUrlLoading(view, request);
             }
+
         });
         displayWebview.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
+                if (view.canGoBack()){
+                    close.setVisibility(View.VISIBLE);
+                }else {
+                    close.setVisibility(View.GONE);
+                }
                 pb.setProgress(newProgress);
                 if(newProgress==100){
                     pb.setVisibility(View.GONE);

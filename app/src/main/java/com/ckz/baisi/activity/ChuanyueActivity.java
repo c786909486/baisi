@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
-public class ChuanyueActivity extends AppCompatActivity {
+public class ChuanyueActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TextView backbtn;
     private ImageButton topsuijibtn;
@@ -66,6 +67,8 @@ public class ChuanyueActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(chuanyueViewPager);
         chuanyueViewPager.setAdapter(adapter);
         chuanyueViewPager.setCurrentItem(position);
+        backbtn.setOnClickListener(this);
+        topsuijibtn.setOnClickListener(this);
     }
 
     private void setData() {
@@ -103,5 +106,21 @@ public class ChuanyueActivity extends AppCompatActivity {
         }
         super.onBackPressed();
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.back_btn:
+                finish();
+                break;
+            case R.id.top_suiji_btn:
+                if (quanbu.isVisible()) quanbu.refreshLayout.startRefresh();
+                if (shiping.isVisible()) shiping.refreshLayout.startRefresh();
+                if (tupian.isVisible()) tupian.refreshLayout.startRefresh();
+                if (duanzi.isVisible()) duanzi.refreshLayout.startRefresh();
+                break;
+
+        }
     }
 }

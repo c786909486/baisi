@@ -107,7 +107,7 @@ public class QuanbuContent extends Fragment {
                 getTimeCha();
                 handler.sendEmptyMessage(123);
             }
-        },1000,1000);
+        },1200,1200);
         getCacheData();
         if (baisi!=null){
             mData.addAll(0,baisi.getList());
@@ -120,7 +120,7 @@ public class QuanbuContent extends Fragment {
     }
     private String setLastTime(){
         String lastTime = null;
-        if (timeCha == System.currentTimeMillis()){
+        if (timeCha == 0){
             lastTime = "没有刷新过...";
         }else if (timeCha<3600*1000){
             if (timeCha/60/1000<1){
@@ -129,7 +129,11 @@ public class QuanbuContent extends Fragment {
                 lastTime = "最后刷新："+timeCha/60/1000+"分钟前";
             }
         }else {
-            lastTime = "最后刷新："+timeCha/60/60/1000+"小时前";
+            if (timeCha>=24*3600*1000 && timeCha<48*3600*1000){
+                lastTime = "最后刷新： 昨天";
+            }else {
+                lastTime = "最后刷新："+timeCha/60/60/1000+"小时前";
+            }
         }
         return lastTime;
     }

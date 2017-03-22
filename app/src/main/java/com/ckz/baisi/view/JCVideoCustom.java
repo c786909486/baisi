@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ public class JCVideoCustom extends JCVideoPlayerStandard {
     public TextView play_counts;
     public TextView total_duration;
     private RelativeLayout show_counts_layout;
+    private LinearLayout top_layout;
     public JCVideoCustom(Context context) {
         super(context);
     }
@@ -35,6 +37,7 @@ public class JCVideoCustom extends JCVideoPlayerStandard {
         play_counts = (TextView) this.findViewById(R.id.play_counts);
         total_duration = (TextView) this.findViewById(R.id.total_duration);
         show_counts_layout = (RelativeLayout) this.findViewById(R.id.show_counts_layout);
+        top_layout = (LinearLayout) this.findViewById(R.id.layout_top);
     }
 
     @Override
@@ -52,13 +55,11 @@ public class JCVideoCustom extends JCVideoPlayerStandard {
     public void setUiWitStateAndScreen(int state) {
         super.setUiWitStateAndScreen(state);
         if (state == 0){
-//            play_counts.setVisibility(VISIBLE);
-//            total_duration.setVisibility(VISIBLE);
+            top_layout.setVisibility(INVISIBLE);
             show_counts_layout.setVisibility(VISIBLE);
         }else {
-//            play_counts.setVisibility(GONE);
-//            total_duration.setVisibility(GONE);
             show_counts_layout.setVisibility(GONE);
+            top_layout.setVisibility(VISIBLE);
         }
         if (this.currentScreen == 0){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

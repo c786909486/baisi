@@ -24,7 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.6" >
+                app:layout_collapseParallaxMultiplier="0.6"
+                android:background="@color/white">
                 <ImageView
                     android:id="@+id/user_bg"
                     android:layout_width="match_parent"
@@ -55,13 +56,24 @@
                     android:layout_marginRight="30dp"
                     android:textSize="@dimen/user_introduction"
                     android:textColor="@color/white"/>
+                <com.ckz.baisi.view.CircleImageView
+                    android:id="@+id/user_icon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/bg"
+                    android:layout_marginTop="200dp"
+                    app:border_width="4dp"
+                    app:border_color="#fff"/>
                 <RelativeLayout
                     android:id="@+id/middle_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/user_bg"
+                    android:layout_toRightOf="@id/user_icon"
                     android:background="#ffffff"
                     android:paddingBottom="10dp"
+
                     >
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -81,21 +93,21 @@
                                 android:layout_height="wrap_content"
                                 android:text="2282粉丝"
                                 android:gravity="center"
-                                android:layout_margin="10dp" />
+                                android:layout_margin="8dp" />
                             <TextView
                                 android:id="@+id/guanzhu_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="34关注"
                                 android:gravity="center"
-                                android:layout_margin="10dp"/>
+                                android:layout_margin="8dp"/>
                             <TextView
                                 android:id="@+id/user_level"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="等级LV:20"
                                 android:gravity="center"
-                                android:layout_margin="10dp"/>
+                                android:layout_margin="8dp"/>
                         </LinearLayout>
 
                         <RelativeLayout
@@ -115,15 +127,7 @@
                         </RelativeLayout>
                     </LinearLayout>
                 </RelativeLayout>
-                <com.ckz.baisi.view.CircleImageView
-                    android:id="@+id/user_icon"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@mipmap/bg"
-                    android:layout_alignBottom="@id/middle_group"
-                    app:border_width="4dp"
-                    app:border_color="#fff"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

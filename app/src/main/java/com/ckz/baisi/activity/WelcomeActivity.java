@@ -28,6 +28,7 @@ public class WelcomeActivity extends AppCompatActivity {
         ImageView adBtn = (ImageView) findViewById(R.id.ad_btn);
         adVideo.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" +R.raw.advideo));
         adVideo.start();
+
         adVideo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -44,5 +45,12 @@ public class WelcomeActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(WelcomeActivity.this,MainActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
     }
 }

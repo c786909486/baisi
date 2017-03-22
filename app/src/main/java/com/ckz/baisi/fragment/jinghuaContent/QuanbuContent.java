@@ -107,7 +107,7 @@ public class QuanbuContent extends Fragment {
                 getTimeCha();
                 handler.sendEmptyMessage(123);
             }
-        },1200,1200);
+        },2000,2000);
         getCacheData();
         if (baisi!=null){
             mData.addAll(0,baisi.getList());

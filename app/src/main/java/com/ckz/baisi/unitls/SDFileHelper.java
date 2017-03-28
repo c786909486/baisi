@@ -39,7 +39,7 @@ public class SDFileHelper {
             //将String字符串以字节流的形式写入到输出流中
             output.close();
             //关闭输出流
-            Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "图片已成功保存到"+filePath, Toast.LENGTH_SHORT).show();
         } else Toast.makeText(context, "SD卡不存在或者不可读写", Toast.LENGTH_SHORT).show();
     }
 

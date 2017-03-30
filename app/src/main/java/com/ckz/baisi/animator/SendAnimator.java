@@ -10,12 +10,12 @@ import android.view.View;
 public class SendAnimator {
 
     public static void aniIn(View view){
-        ObjectAnimator animator = ObjectAnimator.ofFloat(view,"translationY",-1000, 300,0);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view,"translationY",-2000, 300,0);
         animator.setDuration(600);
         animator.start();
     }
     public static void aniOut(View view){
-        ObjectAnimator animator = ObjectAnimator.ofFloat(view,"translationY",0,-300, 1300);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view,"translationY",0,-300, 2000);
         animator.setDuration(600);
         animator.start();
     }

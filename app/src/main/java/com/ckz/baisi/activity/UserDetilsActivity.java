@@ -105,7 +105,7 @@ public class UserDetilsActivity extends AppCompatActivity implements View.OnClic
         userSex = (ImageView) findViewById(R.id.user_sex);
         userIntroduction = (TextView) findViewById(R.id.user_introduction);
         totalLike = (TextView) findViewById(R.id.user_total_like);
-        userPager = (ViewPager) findViewById(R.id.user_pager);
+        userPager = (ViewPager) findViewById(R.id.user_view_pager);
         userLoading.setVisibility(View.VISIBLE);
         topBack.setOnClickListener(this);
         bindViewPager();

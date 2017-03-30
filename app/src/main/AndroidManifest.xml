@@ -19,7 +19,8 @@
             android:name="com.ckz.baisi.unitls.MyGlideMoudle"
             android:value="GlideModule" />
 
-        <activity android:name=".activity.FirstActivity">
+        <activity android:name=".activity.FirstActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,7 +61,8 @@
             android:name=".activity.ChuanyueActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.WelcomeActivity"></activity>
+        <activity android:name=".activity.WelcomeActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

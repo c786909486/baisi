@@ -66,8 +66,14 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:text="00:00"
-
             android:textColor="#ffffff" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/download_btn"
+            android:padding="8dp"
+            android:scaleType="center"
+            android:id="@+id/download_btn"/>
 
         <ImageView
             android:id="@+id/fullscreen"

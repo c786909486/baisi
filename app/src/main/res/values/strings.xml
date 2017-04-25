@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">百思</string>
+    <string name="app_name">仿百思不得姐</string>
     <string name="no_data_txt">啤酒饮料矿泉水，沙发板凳小马扎</string>
     <string name="cancle">取消</string>
     <string name="send_video">发视频</string>
@@ -27,5 +27,6 @@
     <string name="chuanyue">穿越</string>
     <string name="click_to_chuanyue">点击再次穿越</string>
     <string name="close">关闭</string>
-
+    <string name="downloading">下载中</string>
+    <string name="complete">已完成</string>
 </resources>

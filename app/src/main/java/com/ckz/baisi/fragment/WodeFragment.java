@@ -12,13 +12,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ckz.baisi.R;
+import com.ckz.baisi.activity.DownloadTaskManager;
 import com.ckz.baisi.activity.GongxianActivity;
 import com.ckz.baisi.adapter.GridViewAdapter;
 import com.ckz.baisi.adapter.TuiJianAdapter;
@@ -34,7 +35,6 @@ import com.ckz.baisi.unitls.NetWorkUtils;
 import com.ckz.baisi.view.CircleImageView;
 import com.ckz.baisi.view.MyListView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,8 +153,11 @@ public class WodeFragment extends Fragment implements View.OnClickListener{
                         case 48:
                         case 55:
                         case 141:
-                        case 83:
                             DialogUtils.setZBDialog(getContext());
+                            break;
+                        case 83:
+                            Intent intent1 = new Intent(getContext(), DownloadTaskManager.class);
+                            startActivity(intent1);
                             break;
                         case 151:
                         case 154:
@@ -205,8 +208,11 @@ public class WodeFragment extends Fragment implements View.OnClickListener{
         GsonRequest<GrideBean> request = new GsonRequest<GrideBean>(grideURL, GrideBean.class, new Response.Listener<GrideBean>() {
             @Override
             public void onResponse(GrideBean grideBean) {
-                List<GrideBean.SquareListBean> listBeen = grideBean.getSquare_list();
-                mDatas.addAll(listBeen);
+
+                for (GrideBean.SquareListBean listBean : grideBean.getSquare_list()){
+                    mDatas.add(listBean);
+                }
+              //  mDatas.addAll(listBeen);
                 adapter.notifyDataSetChanged();
                 mACache.put("GrideData",grideBean);
                 //总的页数=总数/每页数量，并取整
@@ -220,7 +226,8 @@ public class WodeFragment extends Fragment implements View.OnClickListener{
                 Toast.makeText(getContext(),"当前网络不可用，请检查网络连接",Toast.LENGTH_SHORT).show();
             }
         });
-        MyAppliction.getRequestQueue().add(request);
+
+        MyAppliction.getRequestQueue().add(request).getPriority().compareTo(Request.Priority.IMMEDIATE);
     }
     /**
      * 设置圆点

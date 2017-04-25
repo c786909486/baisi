@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ public class JCVideoCustom extends JCVideoPlayerStandard {
     public TextView total_duration;
     private RelativeLayout show_counts_layout;
     private LinearLayout top_layout;
+    public ImageView downloadBtn;
     public JCVideoCustom(Context context) {
         super(context);
     }
@@ -38,6 +41,7 @@ public class JCVideoCustom extends JCVideoPlayerStandard {
         total_duration = (TextView) this.findViewById(R.id.total_duration);
         show_counts_layout = (RelativeLayout) this.findViewById(R.id.show_counts_layout);
         top_layout = (LinearLayout) this.findViewById(R.id.layout_top);
+        downloadBtn = (ImageView) this.findViewById(R.id.download_btn);
     }
 
     @Override

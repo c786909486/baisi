@@ -34,6 +34,7 @@ import java.util.List;
  */
 
 public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private int selectedPosition = -1;// 选中的位置
     private static final int TXTCOMMENT = 0;
     private static final int VOICECOMMENT = 1;
     private static final int CURRENT_STATE_RELEASE = 0;
@@ -41,7 +42,7 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int currentState = CURRENT_STATE_RELEASE;
     private List<BaisiData.ListBean.TopCommentsBean> mData;
     private Context context;
-    private MediaPlayer mPlayer;
+    private MediaPlayer mPlayer = null;
     private AnimationDrawable animationDrawable;
 
     private OnItemClickListener mOnItemClickListener;
@@ -102,7 +103,11 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
       }
     }
 
-    private void setText(TxtCommentViewHolder holder,int position){
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
+    }
+
+    private void setText(TxtCommentViewHolder holder, int position){
         String name = mData.get(position).getU().getName();
         String comment = mData.get(position).getContent();
         SpannableString string = new SpannableString(TextUtils.ToSBC(name+":"+comment));
@@ -127,16 +132,14 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     //播放功能
     private void setPlayer(final VoiceCommentViewHolder holder, final int position){
-        if (mPlayer==null){
-            animationDrawable = (AnimationDrawable) holder.voice_play_ani.getDrawable();
-            hideVoiceViews(holder);
-            animationDrawable.stop();
-            holder.voice_play_icon.setVisibility(View.VISIBLE);
-        }
+        hideVoiceViews(holder);
+        holder.voice_play_icon.setVisibility(View.VISIBLE);
+
         holder.voice_play_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 animationDrawable = (AnimationDrawable) holder.voice_play_ani.getDrawable();
+                hideVoiceViews(holder);
                 if (currentState == CURRENT_STATE_RELEASE){
                     try {
                         if (mPlayer!=null){
@@ -150,6 +153,7 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                     mPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                         @Override
                         public void onBufferingUpdate(MediaPlayer mp, int percent) {
@@ -157,7 +161,6 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                 hideVoiceViews(holder);
                                 mp.pause();
                                 holder.loading.setVisibility(View.VISIBLE);
-
                             }else {
                                 hideVoiceViews(holder);
                                 holder.voice_play_ani.setVisibility(View.VISIBLE);
@@ -180,10 +183,8 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             }
                         }
                     });
-
                     currentState = CURRENT_STATE_PLAYING;
                 }else {
-
                     mPlayer.reset();
                     mPlayer.release();
                     hideVoiceViews(holder);
@@ -204,6 +205,8 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemCount() {
         return mData.size();
     }
+
+
 
     //设置点击事件
     public interface OnItemClickListener{
@@ -278,7 +281,6 @@ public class TopCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
     private void setIntent(){
         Intent intent =  new Intent(context,CommentActivity.class);
-
         Bundle bundle = new Bundle();
         bundle.putSerializable("Data",listBean);
         intent.putExtra("Id",bundle);

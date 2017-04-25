@@ -40,7 +40,9 @@ import com.ckz.baisi.bean.BaisiData;
 import com.ckz.baisi.unitls.CalLinesUtils;
 import com.ckz.baisi.unitls.GetGlest;
 import com.ckz.baisi.unitls.LogUtils;
+import com.ckz.baisi.unitls.MyDownloadHelper;
 import com.ckz.baisi.unitls.MyIntegerUtils;
+import com.ckz.baisi.unitls.SPUtils;
 import com.ckz.baisi.unitls.ScreenUtils;
 import com.ckz.baisi.unitls.TextUtils;
 import com.ckz.baisi.view.CircleImageView;
@@ -67,6 +69,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int SHOUQI = 1;
     private int type = QUANWEN;
     private TopCommentAdapter adapter;
+    private MyDownloadHelper helper;
 
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
@@ -88,6 +91,7 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public MyContentAdapter(Activity context, List<BaisiData.ListBean> mData){
         this.context = context;
         this.mData = mData;
+        helper = new MyDownloadHelper(context);
     }
 
     @Override
@@ -297,6 +301,16 @@ public class MyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .placeholder(R.mipmap.bg_activities_item_end_transparent).dontAnimate()
                     .override(mData.get(position).getVideo().getWidth(),mData.get(position).getVideo().getHeight())
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.show_video.thumbImageView);
+
+            //下载视频
+            holder.show_video.downloadBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    helper.startDowanload(mData.get(position).getVideo().getDownload().get(0),System.currentTimeMillis()+".mp4", (int) System.currentTimeMillis());
+                    SPUtils.putStringSp(context,mData.get(position).getVideo().getDownload().get(0)+"_image",mData.get(position).getVideo().getThumbnail().get(0));
+                    SPUtils.putStringSp(context,mData.get(position).getVideo().getDownload().get(0)+"_title",mData.get(position).getText());
+                }
+            });
         }
 
            /*
